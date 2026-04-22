@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用条款 - Wrijo</title>
+  <meta name="description" content="Wrijo 使用条款 - 使用本服务即表示您同意以下条款。">
+  <meta name="robots" content="index, follow">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafbfc;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --accent: #0066ff;
+      --border: #e5e7eb;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans SC', 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; text-decoration: none; color: var(--text); }
+    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; font-weight: 700; }
+    .back-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+    .back-link:hover { color: var(--accent); }
+    main { max-width: 800px; margin: 0 auto; padding: 60px 24px; }
+    .lang-switch { display: flex; gap: 2px; background: #f5f6f8; border-radius: 6px; padding: 2px; }
+    .lang-btn { padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
+    .lang-btn.active { background: white; color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .last-updated { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
+    h2 { font-size: 18px; font-weight: 600; margin: 40px 0 16px; color: var(--accent); }
+    h2:first-of-type { margin-top: 0; }
+    p { color: var(--text-muted); margin-bottom: 16px; font-size: 15px; }
+    ul { color: var(--text-muted); margin: 16px 0 16px 24px; font-size: 15px; }
+    li { margin-bottom: 8px; }
+    footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); margin-top: 64px; }
+    footer p { color: var(--text-muted); font-size: 14px; }
+    footer a { color: var(--text-muted); text-decoration: none; margin: 0 16px; font-size: 13px; }
+    footer a:hover { color: var(--accent); }
+    .section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 24px; }
+    .disclaimer-box { background: #fff8e6; border: 1px solid #f6e8cc; border-radius: 12px; padding: 24px; margin: 32px 0; display: flex; gap: 16px; align-items: flex-start; }
+    .disclaimer-icon { font-size: 24px; flex-shrink: 0; }
+    .disclaimer-text strong { display: block; font-size: 15px; margin-bottom: 6px; color: var(--text); }
+    .disclaimer-text span { font-size: 14px; color: #92400e; }
+    .contact-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 32px; display: flex; align-items: center; gap: 16px; }
+    .contact-icon { width: 44px; height: 44px; background: #e8f0ff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .contact-text strong { display: block; font-size: 15px; margin-bottom: 4px; }
+    .contact-text span { color: var(--text-muted); font-size: 14px; }
+    @media (max-width: 768px) { header { padding: 16px 20px; } .disclaimer-box { flex-direction: column; } .contact-box { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo"><div class="logo-icon">W</div><span>Wrijo</span></a>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="/" class="back-link">← <span data-i18n="back">返回首页</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 data-i18n="title">使用条款</h1>
+    <p class="last-updated" data-i18n="updated">最后更新：2026年4月21日</p>
+
+    <div class="section">
+      <h2 data-i18n="h2_1">1. 接受条款</h2>
+      <p data-i18n="p1_1">使用 Wrijo（"本网站"）即表示您同意这些使用条款。如果您不同意，请勿使用本网站。</p>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="h2_2">2. 服务描述</h2>
+      <p data-i18n="p2_1">Wrijo 提供 AI 驱动的写作工具，包括简历优化、求职信生成、文案创作等。我们使用第三方 AI 服务（SiliconFlow）处理您的请求。每天为已验证邮箱的用户提供 5 次免费使用额度。</p>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="h2_3">3. 用户责任</h2>
+      <p data-i18n="p3_1">您同意：</p>
+      <ul>
+        <li data-i18n="li3_1">不使用本网站进行任何非法活动</li>
+        <li data-i18n="li3_2">不上传病毒、恶意软件或其他有害内容</li>
+        <li data-i18n="li3_3">不滥用或试图破坏我们的服务（包括绕过额度限制）</li>
+        <li data-i18n="li3_4">对使用 AI 生成内容的真实性和准确性负责</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="h2_4">4. 知识产权</h2>
+      <p data-i18n="p4_1">您输入的内容归您所有。AI 生成的内容您可以自由使用，但建议您进行审核和修改。本网站的代码、设计和品牌归 Wrijo 所有。</p>
+    </div>
+
+    <div class="disclaimer-box">
+      <div class="disclaimer-icon">⚠️</div>
+      <div class="disclaimer-text">
+        <strong data-i18n="disclaimer_title">重要免责</strong>
+        <span data-i18n="disclaimer_text">本网站按"现状"提供，不作任何明示或暗示的保证。AI 生成的内容可能存在错误、遗漏或信息过时，我们不对其准确性、完整性或适用性负责。请勿将 AI 生成的内容用于关键决策（包括但不限于法律、医疗、金融决策）而不进行独立核实。</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-i18n="h2_5">5. 服务变更</h2>
+      <p data-i18n="p5_1">我们保留随时修改或终止服务的权利，恕不另行通知。</p>
+    </div>
+
+    <div class="contact-box">
+      <div class="contact-icon">📧</div>
+      <div class="contact-text">
+        <strong data-i18n="contact_title">联系我们</strong>
+        <span>contact@wrijo.com</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 Wrijo. <span data-i18n="footer">专业 AI 写作工具</span></p>
+    <div style="margin-top:12px;">
+      <a href="/privacy.html">隐私政策</a>
+      <a href="/terms.html">使用条款</a>
+      <a href="/">返回首页</a>
+    </div>
+  </footer>
+
+  <script>
+    const i18n = {
+      zh: {
+        back: '返回首页', title: '使用条款', updated: '最后更新：2026年4月21日',
+        h2_1: '1. 接受条款', h2_2: '2. 服务描述', h2_3: '3. 用户责任',
+        h2_4: '4. 知识产权', h2_5: '5. 服务变更',
+        p1_1: '使用 Wrijo（"本网站"）即表示您同意这些使用条款。如果您不同意，请勿使用本网站。',
+        p2_1: 'Wrijo 提供 AI 驱动的写作工具，包括简历优化、求职信生成、文案创作等。我们使用第三方 AI 服务（SiliconFlow）处理您的请求。每天为已验证邮箱的用户提供 5 次免费使用额度。',
+        p3_1: '您同意：',
+        li3_1: '不使用本网站进行任何非法活动',
+        li3_2: '不上传病毒、恶意软件或其他有害内容',
+        li3_3: '不滥用或试图破坏我们的服务（包括绕过额度限制）',
+        li3_4: '对使用 AI 生成内容的真实性和准确性负责',
+        p4_1: '您输入的内容归您所有。AI 生成的内容您可以自由使用，但建议您进行审核和修改。本网站的代码、设计和品牌归 Wrijo 所有。',
+        disclaimer_title: '重要免责',
+        disclaimer_text: '本网站按"现状"提供，不作任何明示或暗示的保证。AI 生成的内容可能存在错误、遗漏或信息过时，我们不对其准确性、完整性或适用性负责。请勿将 AI 生成的内容用于关键决策（包括但不限于法律、医疗、金融决策）而不进行独立核实。',
+        p5_1: '我们保留随时修改或终止服务的权利，恕不另行通知。',
+        contact_title: '联系我们', footer: '专业 AI 写作工具'
+      },
+      en: {
+        back: 'Back to Home', title: 'Terms of Service', updated: 'Last updated: April 21, 2026',
+        h2_1: '1. Acceptance of Terms', h2_2: '2. Description of Service', h2_3: '3. User Responsibilities',
+        h2_4: '4. Intellectual Property', h2_5: '5. Changes to Service',
+        p1_1: 'By using Wrijo ("this website"), you agree to these Terms of Service. If you do not agree, please do not use this website.',
+        p2_1: 'Wrijo provides AI-powered writing tools including resume optimization, cover letter generation, and content creation. We use third-party AI services (SiliconFlow) to process your requests. Verified users receive 5 free uses per day.',
+        p3_1: 'You agree to:',
+        li3_1: 'Not use this website for any illegal activities',
+        li3_2: 'Not upload viruses, malware, or other harmful content',
+        li3_3: 'Not abuse or attempt to damage our services (including bypassing quota limits)',
+        li3_4: 'Take responsibility for the accuracy and authenticity of AI-generated content you use',
+        p4_1: 'Content you input belongs to you. AI-generated content is yours to use freely, but we recommend reviewing and editing it. The code, design, and branding of this website belong to Wrijo.',
+        disclaimer_title: 'Important Disclaimer',
+        disclaimer_text: 'This website is provided "as is" without any express or implied warranties. AI-generated content may contain errors, omissions, or outdated information. We are not responsible for its accuracy, completeness, or fitness for any purpose. Do not use AI-generated content for critical decisions (including legal, medical, or financial decisions) without independent verification.',
+        p5_1: 'We reserve the right to modify or discontinue the service at any time without prior notice.',
+        contact_title: 'Contact Us', footer: 'Professional AI Writing Tools'
+      }
+    };
+
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) el.textContent = i18n[lang][key];
+      });
+      localStorage.setItem('wrijo-lang', lang);
+    }
+    if (localStorage.getItem('wrijo-lang') === 'en') {
+      document.querySelector('.lang-btn:nth-child(2)').click();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>求职信 - Wrijo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #fafbfc; --surface: #ffffff; --surface-2: #f5f6f8; --text: #1a1a2e; --text-muted: #6b7280; --accent: #0066ff; --accent-hover: #0052cc; --border: #e5e7eb; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; text-decoration: none; color: var(--text); }
+    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; }
+    .back-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; }
+    .back-link:hover { color: var(--accent); }
+    .lang-switch { display: flex; gap: 2px; background: var(--surface-2); border-radius: 6px; padding: 2px; }
+    .lang-btn { padding: 6px 12px; background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
+    .lang-btn.active { background: white; color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { color: var(--text-muted); font-size: 15px; }
+    .quota-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+    .quota-bar .label { color: var(--text-muted); }
+    .quota-bar .count { font-weight: 600; color: var(--accent); }
+    .quota-bar .email { margin-left: auto; color: var(--text-muted); font-size: 13px; }
+    .quota-bar button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 13px; }
+    .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .tool-grid { grid-template-columns: 1fr; } }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+    .panel-title { font-size: 14px; font-weight: 600; }
+    textarea { width: 100%; min-height: 200px; background: white; border: none; padding: 20px; color: var(--text); font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 14px; line-height: 1.7; resize: vertical; }
+    textarea:focus { outline: none; }
+    textarea::placeholder { color: #9ca3af; }
+    .output-box { width: 100%; min-height: 400px; background: white; padding: 20px; color: var(--text); font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
+    .output-box:empty::before { content: attr(data-placeholder); color: #9ca3af; }
+    .panel-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-top: 1px solid var(--border); background: var(--surface-2); gap: 12px; flex-wrap: wrap; }
+    select { padding: 6px 12px; background: white; border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; cursor: pointer; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; border: 1px solid var(--border); background: white; color: var(--text-muted); border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-primary { padding: 10px 24px; background: var(--accent); border: none; border-radius: 8px; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,102,255,0.3); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error { margin-top: 16px; padding: 12px 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #dc2626; font-size: 14px; display: none; }
+    .error.show { display: block; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 12px 24px; background: var(--text); border-radius: 8px; color: white; font-size: 14px; font-weight: 500; opacity: 0; transition: all 0.3s; z-index: 100; }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; backdrop-filter: blur(4px); }
+    .modal-overlay.show { display: flex; }
+    .modal { background: white; border-radius: 16px; width: 90%; max-width: 420px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+    .modal-input { width: 100%; padding: 14px 16px; border: 2px solid var(--border); border-radius: 10px; font-size: 15px; margin-bottom: 16px; transition: border-color 0.2s; }
+    .modal-input:focus { outline: none; border-color: var(--accent); }
+    .code-row { display: flex; gap: 12px; margin-bottom: 16px; }
+    .code-row .modal-input { flex: 1; margin-bottom: 0; text-align: center; letter-spacing: 8px; font-size: 20px; font-weight: 600; }
+    .btn-code { padding: 0 20px; background: var(--surface-2); border: 2px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+    .btn-code:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .btn-code:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-modal { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 10px; color: white; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-modal:hover { background: var(--accent-hover); }
+    .btn-modal:disabled { opacity: 0.6; cursor: not-allowed; }
+    .modal-error { color: #dc2626; font-size: 13px; margin-top: -8px; margin-bottom: 16px; display: none; }
+    .modal-error.show { display: block; }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none; border: none;
+      font-size: 18px; color: var(--text-muted);
+      cursor: pointer; line-height: 1;
+      padding: 4px 8px; border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .modal-close:hover { color: var(--text); background: var(--surface-2); }
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo"><div class="logo-icon">W</div><span>Wrijo</span></a>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="/" class="back-link">← <span data-i18n="back">返回</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h1 data-i18n="title">💌 求职信</h1>
+      <p data-i18n="subtitle">根据职位描述和个人经历，生成专业、有针对性的求职信</p>
+    </div>
+
+    <div class="quota-bar" id="quotaBar" style="display:none;">
+      <span class="label" data-i18n="quota_label">今日剩余:</span>
+      <span class="count" id="quotaCount">5</span>
+      <span class="label" data-i18n="quota_times">次</span>
+      <span class="email" id="userEmail"></span>
+      <button onclick="logout()" data-i18n="btn_logout">退出</button>
+    </div>
+
+    <div class="tool-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title" data-i18n="input_title">输入信息</span>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-sm" onclick="loadSample()" data-i18n="btn_sample">示例</button>
+            <button class="btn-sm" onclick="clearInput()" data-i18n="btn_clear">清空</button>
+          </div>
+        </div>
+        <textarea id="jobDesc" placeholder="粘贴职位描述 Job Description..." style="min-height:120px;border-bottom:1px solid var(--border);" data-i18n-placeholder="placeholder_job"></textarea>
+        <textarea id="experience" placeholder="你的相关经历（可选）Your experience..." data-i18n-placeholder="placeholder_exp"></textarea>
+        <div class="panel-footer">
+          <select id="tone">
+            <option value="professional" data-i18n="opt_pro">专业正式</option>
+            <option value="friendly" data-i18n="opt_friendly">友好热情</option>
+            <option value="confident" data-i18n="opt_confident">自信果断</option>
+          </select>
+          <button class="btn-primary" id="genBtn" onclick="handleGenClick()">
+            <span data-i18n="btn_generate">生成求职信</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title" data-i18n="output_title">生成的求职信</span>
+          <button class="btn-sm" onclick="copyOutput()" data-i18n="btn_copy">复制</button>
+        </div>
+        <div class="output-box" id="output" data-placeholder="生成的求职信将显示在这里..."></div>
+      </div>
+    </div>
+
+    <div class="error" id="error"></div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal-overlay" id="verifyModal">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" onclick="closeModal()" title="Close">X</button>
+      <h3 data-i18n="modal_title">验证邮箱</h3>
+      <p data-i18n="modal_desc">请输入您的邮箱接收验证码，每天可免费使用 5 次</p>
+      <input type="email" class="modal-input" id="emailInput" placeholder="your@email.com">
+      <div class="code-row">
+        <input type="text" class="modal-input" id="codeInput" placeholder="000000" maxlength="6">
+        <button class="btn-code" id="sendCodeBtn" onclick="sendCode()" data-i18n="btn_send_code">发送验证码</button>
+      </div>
+      <div class="modal-error" id="modalError"></div>
+      <button class="btn-modal" id="verifyBtn" onclick="verifyCode()" data-i18n="btn_verify">验证并继续</button>
+    </div>
+  </div>
+
+  <script>
+    const i18n = {
+      zh: {
+        back: '返回', title: '💌 求职信', subtitle: '根据职位描述和个人经历，生成专业、有针对性的求职信',
+        quota_label: '今日剩余:', quota_times: '次', btn_logout: '退出',
+        input_title: '输入信息', output_title: '生成的求职信',
+        placeholder_job: '粘贴职位描述 Job Description...', placeholder_exp: '你的相关经历（可选）Your experience...',
+        opt_pro: '专业正式', opt_friendly: '友好热情', opt_confident: '自信果断',
+        btn_sample: '示例', btn_clear: '清空', btn_copy: '复制', btn_generate: '生成求职信',
+        modal_title: '验证邮箱', modal_desc: '请输入您的邮箱接收验证码，每天可免费使用 5 次',
+        btn_send_code: '发送验证码', btn_verify: '验证并继续',
+        toast_copied: '已复制', toast_sample: '示例已加载', toast_code_sent: '验证码已发送', toast_verified: '验证成功',
+        error_job: '请输入职位描述', error_failed: '生成失败: ', error_quota: '今日额度已用完',
+        error_email: '请输入有效的邮箱', error_code: '验证码错误或已过期'
+      },
+      en: {
+        back: 'Back', title: '💌 Cover Letter', subtitle: 'Generate tailored cover letters from job descriptions',
+        quota_label: 'Remaining today:', quota_times: 'uses', btn_logout: 'Logout',
+        input_title: 'Input Info', output_title: 'Generated Cover Letter',
+        placeholder_job: 'Paste job description...', placeholder_exp: 'Your relevant experience (optional)...',
+        opt_pro: 'Professional', opt_friendly: 'Friendly', opt_confident: 'Confident',
+        btn_sample: 'Sample', btn_clear: 'Clear', btn_copy: 'Copy', btn_generate: 'Generate',
+        modal_title: 'Verify Email', modal_desc: 'Enter your email for verification code. 5 free uses per day.',
+        btn_send_code: 'Send Code', btn_verify: 'Verify & Continue',
+        toast_copied: 'Copied', toast_sample: 'Sample loaded', toast_code_sent: 'Code sent', toast_verified: 'Verified',
+        error_job: 'Please enter job description', error_failed: 'Generation failed: ', error_quota: 'Daily quota exceeded',
+        error_email: 'Please enter a valid email', error_code: 'Invalid or expired code'
+      }
+    };
+
+    let currentLang = 'zh';
+    let userEmail = localStorage.getItem('wrijo-email');
+    let isFirstUse = !localStorage.getItem('wrijo-first-used-cover');
+    const jobDesc = document.getElementById('jobDesc');
+    const experience = document.getElementById('experience');
+    const output = document.getElementById('output');
+    const error = document.getElementById('error');
+    const btn = document.getElementById('genBtn');
+    const quotaBar = document.getElementById('quotaBar');
+    const quotaCount = document.getElementById('quotaCount');
+    const userEmailEl = document.getElementById('userEmail');
+    updateQuotaUI();
+
+    const SAMPLE_JOB_ZH = `职位：产品经理
+
+岗位职责：
+1. 负责产品规划和需求分析
+2. 协调设计、开发、测试团队推进项目
+3. 收集用户反馈，持续优化产品体验
+
+任职要求：
+- 3年以上产品经验
+- 具备良好的沟通能力和项目管理能力
+- 熟悉敏捷开发流程`;
+
+    const SAMPLE_EXP_ZH = `我有4年产品经理经验，曾在字节跳动负责短视频产品，主导过3个从0到1的项目，用户规模从0增长到500万。`;
+
+    const SAMPLE_JOB_EN = `Position: Product Manager
+
+Responsibilities:
+1. Product planning and requirements analysis
+2. Coordinate with design, engineering, and QA teams
+3. Collect user feedback and iterate on product experience
+
+Requirements:
+- 3+ years of product management experience
+- Strong communication and project management skills
+- Familiar with agile development`;
+
+    const SAMPLE_EXP_EN = `I have 4 years of PM experience at ByteDance, leading short video products. I spearheaded 3 projects from 0 to 1, growing user base from 0 to 5 million.`;
+
+    function loadSample() {
+      jobDesc.value = currentLang === 'zh' ? SAMPLE_JOB_ZH : SAMPLE_JOB_EN;
+      experience.value = currentLang === 'zh' ? SAMPLE_EXP_ZH : SAMPLE_EXP_EN;
+      showToast(i18n[currentLang].toast_sample);
+    }
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      localStorage.setItem('wrijo-lang', lang);
+    }
+
+    function updateQuotaUI() {
+      if (userEmail) { quotaBar.style.display = 'flex'; userEmailEl.textContent = userEmail;
+        const sessionToken = localStorage.getItem('wrijo-session-token');
+        if (sessionToken) fetch('/api/check-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) })
+          .then(r => r.json()).then(data => { if (data.remaining !== undefined) quotaCount.textContent = data.remaining; }).catch(() => {});
+      } else quotaBar.style.display = 'none';
+    }
+
+
+    function closeModal() {
+      document.getElementById('verifyModal').classList.remove('show');
+      hideModalError();
+    }
+
+    function logout() { localStorage.removeItem('wrijo-email'); localStorage.removeItem('wrijo-session-token'); userEmail = null; isFirstUse = true; verifyToken = null; updateQuotaUI(); showToast(currentLang === 'zh' ? '已退出' : 'Logged out'); }
+    function clearInput() { jobDesc.value = ''; experience.value = ''; }
+    function copyOutput() { if (!output.textContent) return; navigator.clipboard.writeText(output.textContent).then(() => showToast(i18n[currentLang].toast_copied)); }
+    function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2000); }
+    function showError(msg) { error.textContent = msg; error.classList.add('show'); }
+    function hideError() { error.classList.remove('show'); }
+    function showModalError(msg) { const el = document.getElementById('modalError'); el.textContent = msg; el.classList.add('show'); }
+    function hideModalError() { document.getElementById('modalError').classList.remove('show'); }
+
+    function handleGenClick() {
+      if (isFirstUse && !userEmail) { isFirstUse = false; localStorage.setItem('wrijo-first-used-cover', 'true'); generate(); }
+      else if (userEmail) checkQuotaAndGenerate();
+      else document.getElementById('verifyModal').classList.add('show');
+    }
+
+    async function checkQuotaAndGenerate() {
+      const sessionToken = localStorage.getItem('wrijo-session-token');
+      if (!sessionToken) { document.getElementById('verifyModal').classList.add('show'); return; }
+      try { const res = await fetch('/api/check-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); const data = await res.json(); if (!data.allowed) { showError(i18n[currentLang].error_quota); return; } generate(); } catch { generate(); }
+    }
+
+    let countdown = 0; let verifyToken = null;
+
+    async function sendCode() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email || !email.includes('@')) { showModalError(i18n[currentLang].error_email); return; }
+      hideModalError();
+      const btn = document.getElementById('sendCodeBtn'); btn.disabled = true;
+      try {
+        const res = await fetch('/api/send-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        verifyToken = data.token;
+        showToast(i18n[currentLang].toast_code_sent);
+        countdown = 60;
+        (function tick() { const b = document.getElementById('sendCodeBtn'); if (countdown > 0) { b.textContent = countdown + 's'; countdown--; setTimeout(tick, 1000); } else { b.textContent = i18n[currentLang].btn_send_code; b.disabled = false; } })();
+      } catch (err) { showModalError('Failed: ' + err.message); btn.disabled = false; }
+    }
+
+    async function verifyCode() {
+      const email = document.getElementById('emailInput').value.trim();
+      const code = document.getElementById('codeInput').value.trim();
+      if (!email || !code) { showModalError(i18n[currentLang].error_code); return; }
+      if (!verifyToken) { showModalError('Please send code first'); return; }
+      hideModalError();
+      const btn = document.getElementById('verifyBtn'); btn.disabled = true; btn.textContent = '...';
+      try {
+        const res = await fetch('/api/verify-code', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code, token: verifyToken }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        userEmail = email; localStorage.setItem('wrijo-email', email); localStorage.setItem('wrijo-session-token', data.token);
+        document.getElementById('verifyModal').classList.remove('show'); updateQuotaUI(); showToast(i18n[currentLang].toast_verified); generate();
+      } catch (err) { showModalError(i18n[currentLang].error_code); btn.disabled = false; btn.textContent = i18n[currentLang].btn_verify; }
+    }
+
+    async function generate() {
+      const jd = jobDesc.value.trim();
+      if (!jd) { showError(i18n[currentLang].error_job); return; }
+      hideError();
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> ' + (currentLang === 'zh' ? '生成中...' : 'Generating...');
+
+      const toneMap = { professional: 'professional and formal', friendly: 'warm and enthusiastic', confident: 'confident and assertive' };
+      const lang = currentLang === 'zh' ? 'Chinese (Simplified)' : 'English';
+      const system = currentLang === 'zh'
+        ? `你是一位专业的求职信写作专家。根据职位描述和候选人经历，生成一封专业、有针对性的求职信。
+
+要求：
+- 语言：${lang}
+- 语气：${toneMap[document.getElementById('tone').value]}
+- 长度：300-400字
+- 结构：开头（自我介绍+目标职位）/ 中间（核心优势+与职位的匹配点）/ 结尾（表达热情+期待面试）
+- 不要虚构经历，保持真实可信`
+        : `You are a professional cover letter writer. Write a compelling cover letter based on the job description and candidate experience.
+
+Requirements:
+- Language: ${lang}
+- Tone: ${toneMap[document.getElementById('tone').value]}
+- Length: 300-400 words
+- Structure: Opening (self-intro + target position) / Body (key strengths + job fit) / Closing (enthusiasm + interview request)
+- Stay authentic, do not fabricate experience`;
+
+      try {
+        if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
+        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'cover', system, messages: [{ role: 'user', content: `Job Description:\n${jd}\n\nMy Experience:\n${experience.value.trim() || 'Not provided'}` }], temperature: 0.4 }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        output.textContent = data.result;
+        showToast(currentLang === 'zh' ? '生成完成' : 'Done');
+      } catch (err) { showError(i18n[currentLang].error_failed + err.message); }
+      finally { btn.disabled = false; btn.innerHTML = '<span>' + i18n[currentLang].btn_generate + '</span>'; }
+    }
+
+    document.getElementById('verifyModal').addEventListener('click', (e) => { if (e.target.id === 'verifyModal') e.target.classList.remove('show'); });
+    if (localStorage.getItem('wrijo-lang') === 'en') document.querySelector('.lang-btn:nth-child(2)').click();
+  </script>
+</body>
+</html>

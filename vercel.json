@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "privacy.html", "use": "@vercel/static" },
+    { "src": "terms.html", "use": "@vercel/static" },
+    { "src": "pricing.html", "use": "@vercel/static" },
+    { "src": "tools/**/index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/send-code", "dest": "/api/send-code.js" },
+    { "src": "/api/verify-code", "dest": "/api/verify-code.js" },
+    { "src": "/api/check-quota", "dest": "/api/check-quota.js" },
+    { "src": "/api/use-quota", "dest": "/api/use-quota.js" },
+    { "src": "/api/ai", "dest": "/api/ai.js" },
+    { "src": "/tools/(.*)", "dest": "/tools/$1/index.html" },
+    { "src": "/pricing", "dest": "/pricing.html" },
+    { "src": "/privacy", "dest": "/privacy.html" },
+    { "src": "/terms", "dest": "/terms.html" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "wrijo",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^6.9.13",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

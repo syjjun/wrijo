@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Optimizer | 简历优化 - Wrijo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafbfc;
+      --surface: #ffffff;
+      --surface-2: #f5f6f8;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --accent: #0066ff;
+      --accent-light: #e8f0ff;
+      --accent-hover: #0052cc;
+      --border: #e5e7eb;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+    }
+    
+    .logo-icon {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: white;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .back-link:hover { color: var(--accent); }
+    
+    .lang-switch {
+      display: flex;
+      gap: 2px;
+      background: var(--surface-2);
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .lang-btn {
+      padding: 6px 12px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .lang-btn.active {
+      background: white;
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    
+    .page-header {
+      margin-bottom: 32px;
+    }
+    .page-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    
+    .quota-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .quota-bar .label { color: var(--text-muted); }
+    .quota-bar .count { font-weight: 600; color: var(--accent); }
+    .quota-bar .email { margin-left: auto; color: var(--text-muted); font-size: 13px; }
+    .quota-bar button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    
+    .tool-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .tool-container { grid-template-columns: 1fr; }
+    }
+    
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .panel-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-sm:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    
+    textarea {
+      width: 100%;
+      min-height: 420px;
+      background: white;
+      border: none;
+      padding: 20px;
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans SC', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      resize: vertical;
+    }
+    textarea:focus { outline: none; }
+    textarea::placeholder { color: #9ca3af; }
+    
+    .output-box {
+      width: 100%;
+      min-height: 420px;
+      background: white;
+      padding: 20px;
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans SC', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
+    .output-box:empty::before {
+      content: attr(data-placeholder);
+      color: #9ca3af;
+    }
+    
+    .panel-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+    
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    select {
+      padding: 6px 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    .char-count {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    .btn-primary {
+      padding: 10px 24px;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,102,255,0.3);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .error {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      color: #dc2626;
+      font-size: 14px;
+      display: none;
+    }
+    .error.show { display: block; }
+    
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      padding: 12px 24px;
+      background: var(--text);
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 100;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.show { display: flex; }
+    
+    .modal {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 420px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    .modal h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .modal p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    
+    .modal-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .modal-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    
+    .code-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .code-row .modal-input {
+      flex: 1;
+      margin-bottom: 0;
+      text-align: center;
+      letter-spacing: 8px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .btn-code {
+      padding: 0 20px;
+      background: var(--surface-2);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .btn-code:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-code:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .btn-modal {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-modal:hover {
+      background: var(--accent-hover);
+    }
+    .btn-modal:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .modal-error {
+      color: #dc2626;
+      font-size: 13px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .modal-error.show { display: block; }
+    
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">
+      <div class="logo-icon">W</div>
+      <span>Wrijo</span>
+    </a>
+    <div class="header-right">
+      <a href="/" class="back-link">← <span data-i18n="back">返回 Back</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="page-header">
+      <h1 data-i18n="title">📄 简历优化 Resume Optimizer</h1>
+      <p data-i18n="subtitle">AI 帮您优化措辞、添加量化指标、提升专业度</p>
+    </div>
+    
+    <div class="quota-bar" id="quotaBar" style="display:none;">
+      <span class="label" data-i18n="quota_label">今日剩余:</span>
+      <span class="count" id="quotaCount">5</span>
+      <span class="label" data-i18n="quota_times">次</span>
+      <span class="email" id="userEmail"></span>
+      <button onclick="logout()" data-i18n="btn_logout">退出</button>
+    </div>
+    
+    <div class="tool-container">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title" data-i18n="input_title">原始简历 Original Resume</span>
+          <div class="panel-actions">
+            <button class="btn-sm" onclick="loadSample()" data-i18n="btn_sample">示例 Sample</button>
+            <button class="btn-sm" onclick="clearInput()" data-i18n="btn_clear">清空 Clear</button>
+          </div>
+        </div>
+        <textarea id="input" placeholder="在此粘贴您的简历内容... Paste your resume here..."></textarea>
+        <div class="panel-footer">
+          <div class="control-group">
+            <label data-i18n="label_type">类型 Type:</label>
+            <select id="type">
+              <option value="general" data-i18n="opt_general">通用 General</option>
+              <option value="tech" data-i18n="opt_tech">技术/工程 Tech</option>
+              <option value="product" data-i18n="opt_product">产品 Product</option>
+              <option value="marketing" data-i18n="opt_marketing">市场/运营 Marketing</option>
+              <option value="executive" data-i18n="opt_executive">高管/管理 Executive</option>
+              <option value="fresh" data-i18n="opt_fresh">应届生 Fresh Grad</option>
+            </select>
+          </div>
+          <span class="char-count"><span id="count">0</span> <span data-i18n="chars">字 chars</span></span>
+        </div>
+      </div>
+      
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title" data-i18n="output_title">优化结果 Optimized Result</span>
+          <div class="panel-actions">
+            <button class="btn-sm" onclick="copyOutput()" data-i18n="btn_copy">复制 Copy</button>
+            <button class="btn-sm" onclick="downloadOutput()" data-i18n="btn_download">下载 Download</button>
+          </div>
+        </div>
+        <div class="output-box" id="output" data-placeholder="优化后的简历将显示在这里...&#10;Optimized resume will appear here..."></div>
+        <div class="panel-footer">
+          <span></span>
+          <button class="btn-primary" id="optimizeBtn" onclick="handleOptimizeClick()">
+            <span data-i18n="btn_optimize">开始优化 Optimize</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="error" id="error"></div>
+  </main>
+  
+  <div class="toast" id="toast"></div>
+  
+  <!-- Verification Modal -->
+  <div class="modal-overlay" id="verifyModal">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" onclick="closeModal()" title="Close">X</button>
+      <h3 data-i18n="modal_title">验证邮箱</h3>
+      <p data-i18n="modal_desc">请输入您的邮箱接收验证码，每天可免费使用 5 次</p>
+      <input type="email" class="modal-input" id="emailInput" placeholder="your@email.com" data-i18n-placeholder="modal_email_placeholder">
+      <div class="code-row">
+        <input type="text" class="modal-input" id="codeInput" placeholder="000000" maxlength="6" data-i18n-placeholder="modal_code_placeholder">
+        <button class="btn-code" id="sendCodeBtn" onclick="sendCode()" data-i18n="btn_send_code">发送验证码</button>
+      </div>
+      <div class="modal-error" id="modalError"></div>
+      <button class="btn-modal" id="verifyBtn" onclick="verifyCode()" data-i18n="btn_verify">验证并继续</button>
+    </div>
+  </div>
+  
+  <script>
+    const i18n = {
+      zh: {
+        back: '返回 Back',
+        title: '📄 简历优化 Resume Optimizer',
+        subtitle: 'AI 帮您优化措辞、添加量化指标、提升专业度',
+        quota_label: '今日剩余:',
+        quota_times: '次',
+        btn_logout: '退出',
+        input_title: '原始简历 Original Resume',
+        output_title: '优化结果 Optimized Result',
+        btn_sample: '示例 Sample',
+        btn_clear: '清空 Clear',
+        btn_copy: '复制 Copy',
+        btn_download: '下载 Download',
+        btn_optimize: '开始优化 Optimize',
+        label_type: '类型 Type:',
+        opt_general: '通用 General',
+        opt_tech: '技术/工程 Tech',
+        opt_product: '产品 Product',
+        opt_marketing: '市场/运营 Marketing',
+        opt_executive: '高管/管理 Executive',
+        opt_fresh: '应届生 Fresh Grad',
+        chars: '字 chars',
+        modal_title: '验证邮箱',
+        modal_desc: '请输入您的邮箱接收验证码，每天可免费使用 5 次',
+        modal_email_placeholder: 'your@email.com',
+        modal_code_placeholder: '000000',
+        btn_send_code: '发送验证码',
+        btn_verify: '验证并继续',
+        toast_copied: '已复制 Copied',
+        toast_downloaded: '已下载 Downloaded',
+        toast_sample: '示例已加载 Sample loaded',
+        toast_code_sent: '验证码已发送',
+        toast_verified: '验证成功',
+        error_short: '简历内容太短，请至少输入50个字符',
+        error_failed: '优化失败: ',
+        error_quota: '今日额度已用完，请明天再来',
+        error_email: '请输入有效的邮箱地址',
+        error_code: '验证码错误或已过期'
+      },
+      en: {
+        back: 'Back 返回',
+        title: '📄 Resume Optimizer 简历优化',
+        subtitle: 'AI helps optimize wording, add metrics, improve professionalism',
+        quota_label: 'Remaining today:',
+        quota_times: 'uses',
+        btn_logout: 'Logout',
+        input_title: 'Original Resume 原始简历',
+        output_title: 'Optimized Result 优化结果',
+        btn_sample: 'Sample 示例',
+        btn_clear: 'Clear 清空',
+        btn_copy: 'Copy 复制',
+        btn_download: 'Download 下载',
+        btn_optimize: 'Optimize 开始优化',
+        label_type: 'Type 类型:',
+        opt_general: 'General 通用',
+        opt_tech: 'Tech 技术/工程',
+        opt_product: 'Product 产品',
+        opt_marketing: 'Marketing 市场/运营',
+        opt_executive: 'Executive 高管/管理',
+        opt_fresh: 'Fresh Grad 应届生',
+        chars: 'chars 字',
+        modal_title: 'Verify Email',
+        modal_desc: 'Enter your email to receive verification code. 5 free uses per day.',
+        modal_email_placeholder: 'your@email.com',
+        modal_code_placeholder: '000000',
+        btn_send_code: 'Send Code',
+        btn_verify: 'Verify & Continue',
+        toast_copied: 'Copied 已复制',
+        toast_downloaded: 'Downloaded 已下载',
+        toast_sample: 'Sample loaded 示例已加载',
+        toast_code_sent: 'Code sent 验证码已发送',
+        toast_verified: 'Verified 验证成功',
+        error_short: 'Resume too short, please enter at least 50 characters',
+        error_failed: 'Optimization failed: ',
+        error_quota: 'Daily quota exceeded, please come back tomorrow',
+        error_email: 'Please enter a valid email',
+        error_code: 'Invalid or expired code'
+      }
+    };
+    
+    let currentLang = 'zh';
+    let userEmail = localStorage.getItem('wrijo-email');
+    let useCount = parseInt(localStorage.getItem('wrijo-use-count') || '0');
+    let isFirstUse = useCount === 0;
+    
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const count = document.getElementById('count');
+    const error = document.getElementById('error');
+    const btn = document.getElementById('optimizeBtn');
+    const quotaBar = document.getElementById('quotaBar');
+    const quotaCount = document.getElementById('quotaCount');
+    const userEmailEl = document.getElementById('userEmail');
+    const verifyModal = document.getElementById('verifyModal');
+    
+    const SAMPLE_ZH = `张三
+软件工程师 | 5年经验
+zhangsan@email.com | 北京
+
+工作经历
+
+字节跳动 | 高级后端工程师 | 2021-至今
+• 负责用户增长系统后端开发，支撑日活2亿用户
+• 优化推荐算法接口，响应时间从200ms降至50ms
+• 带领5人小组完成支付系统重构
+
+百度 | 后端工程师 | 2019-2021
+• 开发广告投放系统，日处理请求10亿+
+• 设计并实现高可用架构，系统可用性99.99%
+
+教育背景
+北京大学 | 计算机科学与技术 | 本科 | 2015-2019
+
+技能
+Python, Go, Redis, Kafka, MySQL, Kubernetes`;
+
+    const SAMPLE_EN = `John Smith
+Software Engineer | 5 Years Experience
+john.smith@email.com | San Francisco, CA
+
+Work Experience
+
+Google | Senior Software Engineer | 2021-Present
+• Led backend development for user growth system supporting 200M DAU
+• Optimized recommendation API, reduced latency from 200ms to 50ms
+• Led 5-person team to rebuild payment system
+
+Microsoft | Software Engineer | 2019-2021
+• Developed ad serving system processing 1B+ requests daily
+• Designed high-availability architecture with 99.99% uptime
+
+Education
+Stanford University | Computer Science | BS | 2015-2019
+
+Skills
+Python, Go, Redis, Kafka, MySQL, Kubernetes`;
+    
+    // Init
+    updateQuotaUI();
+    
+    // Check if first use already consumed
+    const firstUsed = localStorage.getItem('wrijo-first-used');
+    if (firstUsed) {
+      isFirstUse = false;
+    }
+    
+    function updateQuotaUI() {
+      if (userEmail) {
+        quotaBar.style.display = 'flex';
+        userEmailEl.textContent = userEmail;
+        // 从服务器获取最新额度
+        const sessionToken = localStorage.getItem('wrijo-session-token');
+        if (sessionToken) {
+          fetch('/api/check-quota', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: sessionToken })
+          })
+          .then(r => r.json())
+          .then(data => {
+            quotaCount.textContent = data.remaining;
+          })
+          .catch(() => {
+            quotaCount.textContent = '?';
+          });
+        }
+      } else {
+        quotaBar.style.display = 'none';
+      }
+    }
+    
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) {
+          if (el.tagName === 'OPTION') el.textContent = i18n[lang][key];
+          else el.innerHTML = i18n[lang][key];
+        }
+      });
+      
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (i18n[lang][key]) el.placeholder = i18n[lang][key];
+      });
+      
+      localStorage.setItem('wrijo-lang', lang);
+    }
+    
+
+    function closeModal() {
+      document.getElementById('verifyModal').classList.remove('show');
+      hideModalError();
+    }
+
+    function logout() {
+      localStorage.removeItem('wrijo-email');
+      localStorage.removeItem('wrijo-session-token');
+      localStorage.removeItem('wrijo-use-count');
+      localStorage.removeItem('wrijo-first-used');
+      userEmail = null;
+      useCount = 0;
+      isFirstUse = true;
+      verifyToken = null;
+      updateQuotaUI();
+      showToast(currentLang === 'zh' ? '已退出' : 'Logged out');
+    }
+    
+    input.addEventListener('input', () => count.textContent = input.value.length);
+    
+    function loadSample() {
+      input.value = currentLang === 'zh' ? SAMPLE_ZH : SAMPLE_EN;
+      count.textContent = input.value.length;
+      showToast(i18n[currentLang].toast_sample);
+    }
+    
+    function clearInput() { input.value = ''; count.textContent = '0'; }
+    
+    function copyOutput() {
+      const text = output.textContent;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => showToast(i18n[currentLang].toast_copied));
+    }
+    
+    function downloadOutput() {
+      const text = output.textContent;
+      if (!text) return;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'optimized-resume.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(i18n[currentLang].toast_downloaded);
+    }
+    
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+    
+    function showError(msg) { error.textContent = msg; error.classList.add('show'); }
+    function hideError() { error.classList.remove('show'); }
+    function showModalError(msg) { 
+      const el = document.getElementById('modalError'); 
+      el.textContent = msg; 
+      el.classList.add('show'); 
+    }
+    function hideModalError() { document.getElementById('modalError').classList.remove('show'); }
+    
+    // Verification
+    function handleOptimizeClick() {
+      if (isFirstUse && !userEmail) {
+        // 第一次使用，直接优化，记录已使用
+        isFirstUse = false;
+        localStorage.setItem('wrijo-first-used', 'true');
+        localStorage.setItem('wrijo-use-count', '1');
+        useCount = 1;
+        optimize();
+      } else if (userEmail) {
+        // 已验证，检查额度
+        checkQuotaAndOptimize();
+      } else {
+        // 需要验证
+        verifyModal.classList.add('show');
+      }
+    }
+    
+    async function checkQuotaAndOptimize() {
+      const sessionToken = localStorage.getItem('wrijo-session-token');
+      if (!sessionToken) {
+        // Token 丢失，需要重新验证
+        verifyModal.classList.add('show');
+        return;
+      }
+      
+      try {
+        const res = await fetch('/api/check-quota', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: sessionToken })
+        });
+        const data = await res.json();
+        
+        if (!data.allowed) {
+          showError(i18n[currentLang].error_quota);
+          return;
+        }
+        
+        optimize();
+      } catch (err) {
+        showError('Network error');
+      }
+    }
+    
+    let countdown = 0;
+    let verifyToken = null;
+    
+    async function sendCode() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email || !email.includes('@')) {
+        showModalError(i18n[currentLang].error_email);
+        return;
+      }
+      
+      hideModalError();
+      const btn = document.getElementById('sendCodeBtn');
+      btn.disabled = true;
+      
+      try {
+        const res = await fetch('/api/send-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed');
+        
+        // 保存 verify token
+        verifyToken = data.token;
+        
+        showToast(i18n[currentLang].toast_code_sent);
+        countdown = 60;
+        updateCountdown();
+      } catch (err) {
+        showModalError('Failed to send code');
+        btn.disabled = false;
+      }
+    }
+    
+    function updateCountdown() {
+      const btn = document.getElementById('sendCodeBtn');
+      if (countdown > 0) {
+        btn.textContent = `${countdown}s`;
+        countdown--;
+        setTimeout(updateCountdown, 1000);
+      } else {
+        btn.textContent = i18n[currentLang].btn_send_code;
+        btn.disabled = false;
+      }
+    }
+    
+    async function verifyCode() {
+      const email = document.getElementById('emailInput').value.trim();
+      const code = document.getElementById('codeInput').value.trim();
+      
+      if (!email || !code) {
+        showModalError(i18n[currentLang].error_code);
+        return;
+      }
+      
+      if (!verifyToken) {
+        showModalError('Please send code first');
+        return;
+      }
+      
+      hideModalError();
+      const btn = document.getElementById('verifyBtn');
+      btn.disabled = true;
+      btn.textContent = currentLang === 'zh' ? '验证中...' : 'Verifying...';
+      
+      try {
+        const res = await fetch('/api/verify-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, code, token: verifyToken })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Invalid code');
+        }
+        
+        // 验证成功
+        userEmail = email;
+        localStorage.setItem('wrijo-email', email);
+        localStorage.setItem('wrijo-session-token', data.token);
+        localStorage.setItem('wrijo-use-count', '1');
+        useCount = 1;
+        
+        verifyModal.classList.remove('show');
+        updateQuotaUI();
+        showToast(i18n[currentLang].toast_verified);
+        
+        // 继续优化
+        optimize();
+      } catch (err) {
+        showModalError(i18n[currentLang].error_code);
+        btn.disabled = false;
+        btn.textContent = i18n[currentLang].btn_verify;
+      }
+    }
+    
+    async function optimize() {
+      const text = input.value.trim();
+      if (text.length < 50) { showError(i18n[currentLang].error_short); return; }
+      
+      hideError();
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> ' + (currentLang === 'zh' ? '优化中...' : 'Optimizing...');
+      
+      const typeMap = {
+        general: currentLang === 'zh' ? '通用职场简历' : 'General professional resume',
+        tech: currentLang === 'zh' ? '技术/工程师简历' : 'Technical/Engineering resume',
+        product: currentLang === 'zh' ? '产品经理简历' : 'Product Manager resume',
+        marketing: currentLang === 'zh' ? '市场/运营简历' : 'Marketing/Operations resume',
+        executive: currentLang === 'zh' ? '高管/管理简历' : 'Executive/Management resume',
+        fresh: currentLang === 'zh' ? '应届生简历' : 'Fresh graduate resume'
+      };
+      
+      const system = currentLang === 'zh' 
+        ? `你是一位专业的简历优化师。请优化以下简历，要求：
+1. 修正语法和表达问题
+2. 使用强有力的动词开头
+3. 添加量化指标（如用户数、提升百分比、收入等）
+4. 优化排版，使其更易读
+5. 针对${typeMap[document.getElementById('type').value]}进行优化
+6. 保持原有事实，不虚构经历
+7. 输出优化后的完整简历`
+        : `You are a professional resume optimizer. Please optimize the following resume:
+1. Fix grammar and expression issues
+2. Use strong action verbs
+3. Add quantifiable metrics (users, percentages, revenue, etc.)
+4. Improve formatting for readability
+5. Optimize for ${typeMap[document.getElementById('type').value]}
+6. Keep original facts, don't fabricate experience
+7. Output the complete optimized resume`;
+      
+      try {
+        // 记录使用
+        if (userEmail) {
+          const sessionToken = localStorage.getItem('wrijo-session-token');
+          if (sessionToken) {
+            const quotaRes = await fetch('/api/use-quota', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: sessionToken })
+            });
+            const quotaData = await quotaRes.json();
+            if (quotaData.token) {
+              localStorage.setItem('wrijo-session-token', quotaData.token);
+            }
+            updateQuotaUI();
+          }
+        }
+        
+        const res = await fetch('/api/ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tool: 'resume',
+            system,
+            messages: [{ role: 'user', content: text }],
+            temperature: 0.4
+          })
+        });
+        
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+        
+        output.textContent = data.result;
+        showToast(currentLang === 'zh' ? '优化完成' : 'Optimization complete');
+      } catch (err) {
+        showError(i18n[currentLang].error_failed + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>' + i18n[currentLang].btn_optimize + '</span>';
+      }
+    }
+    
+    // Close modal on overlay click
+    verifyModal.addEventListener('click', (e) => {
+      if (e.target === verifyModal) verifyModal.classList.remove('show');
+    });
+    
+    const savedLang = localStorage.getItem('wrijo-lang');
+    if (savedLang === 'en') {
+      document.querySelector('.lang-btn:nth-child(2)').click();
+    }
+  </script>
+</body>
+</html>
