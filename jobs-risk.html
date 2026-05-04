@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>职业AI风险查询 - Wrijo</title>
+  <meta name="description" content="你的职业会被AI取代吗？查询342种职业的AI暴露指数，看看哪些工作最危险、哪些最安全。">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafbfc;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --accent: #0066ff;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --safe: #10b981;
+      --safe-light: #ecfdf5;
+      --border: #e5e7eb;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .subtitle { color: var(--text-muted); margin-bottom: 32px; }
+    
+    .search-box {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-result {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 8px;
+      display: none;
+    }
+    .search-result.found { display: block; background: var(--surface); border: 1px solid var(--border); }
+    .search-result.not-found { display: block; background: #fffbeb; border: 1px solid #fcd34d; }
+    
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 20px; font-weight: 600;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .badge { font-size: 12px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+    .badge-danger { background: var(--danger-light); color: var(--danger); }
+    .badge-safe { background: var(--safe-light); color: var(--safe); }
+    
+    .job-list {
+      display: grid;
+      gap: 12px;
+    }
+    .job-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .job-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .job-title { font-weight: 500; }
+    .job-score {
+      font-size: 24px; font-weight: 700;
+      min-width: 40px; text-align: right;
+    }
+    .job-score.high { color: var(--danger); }
+    .job-score.low { color: var(--safe); }
+    
+    .exposure-bar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .exposure-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+    .exposure-fill.high { background: var(--danger); }
+    .exposure-fill.low { background: var(--safe); }
+    
+    .footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 职业AI风险查询</h1>
+    <p class="subtitle">基于美国劳工统计局342种职业数据，AI暴露指数0-10分，分数越高越容易被AI改变</p>
+    
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchInput" placeholder="输入职业名称搜索，如：程序员、会计、护士...">
+      <div class="search-result" id="searchResult"></div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        <span>🔥 高风险职业</span>
+        <span class="badge badge-danger">AI暴露指数 9-10</span>
+      </div>
+      <div class="job-list" id="highRiskList"></div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        <span>🛡️ 低风险职业</span>
+        <span class="badge badge-safe">AI暴露指数 1-2</span>
+      </div>
+      <div class="job-list" id="lowRiskList"></div>
+    </div>
+    
+    <div class="footer">
+      数据来源：<a href="https://github.com/karpathy/jobs" target="_blank">karpathy/jobs</a> |
+      <a href="/">返回 Wrijo 首页</a>
+    </div>
+  </div>
+
+  <script>
+    // 职业数据
+    const allJobs = [
+      {title: "Medical transcriptionists", exposure: 10, rationale: "医学转录是纯数字化的常规信息处理任务，已受到语音识别的严重影响。现代AI能自动完成大部分工作。"},
+      {title: "Bill and account collectors", exposure: 9, rationale: "几乎完全数字化，包括数据分析、追踪和电话/电脑沟通。AI和自动化系统已在处理大部分工作。"},
+      {title: "Bookkeeping, accounting, and auditing clerks", exposure: 9, rationale: "几乎完全数字化，涉及常规信息处理、数据录入和数学验证——AI和自动化软件已能高精度完成。"},
+      {title: "Computer and information research scientists", exposure: 9, rationale: "本质上是数字化工作，涉及高级编程、算法设计和数据分析——AI正在快速推进这些领域。"},
+      {title: "Computer programmers", exposure: 9, rationale: "编写、测试和调试代码的核心任务完全数字化，与大语言模型的能力完美匹配。"},
+      {title: "Court reporters and simultaneous captioners", exposure: 9, rationale: "核心产出是逐字数字转录，AI语音转文字和自然语言处理已高度胜任。"},
+      {title: "Customer service representatives", exposure: 9, rationale: "回答问题、处理订单、解决投诉的核心职责本质上是数字化和信息化的，极易被AI自动化。"},
+      {title: "Data scientists", exposure: 9, rationale: "数据科学是完全数字化的职业，围绕编程、统计建模和数据分析——AI正在这些领域快速达到平价或超越。"},
+      {title: "Database administrators and architects", exposure: 9, rationale: "完全数字化，涉及SQL编程、系统架构和数据管理——AI在这些领域特别擅长。"},
+      {title: "Desktop publishers", exposure: 9, rationale: "工作产出完全数字化，涉及常规信息处理、版面设计和基础编辑——AI高度擅长。"},
+      {title: "Roofers", exposure: 1, rationale: "屋顶工是高度体力劳动，在不可预测的户外环境中工作，需要手部灵巧、平衡和重物搬运。"},
+      {title: "Painters, construction and maintenance", exposure: 1, rationale: "核心职责完全体力化，需要手部灵巧、高空作业和实时适应不可预测的物理表面。"},
+      {title: "Janitors and building cleaners", exposure: 1, rationale: "核心职责几乎完全体力化，在学校、医院等不可预测和多样化的环境中进行体力劳动。"},
+      {title: "Ironworkers", exposure: 1, rationale: "钢铁工是高度体力劳动，在不可预测的户外环境和高空作业，提供了显著的天然屏障。"},
+      {title: "Grounds maintenance workers", exposure: 1, rationale: "核心职责几乎完全体力化，在不可预测的户外环境中工作，提供了强大的天然屏障。"},
+      {title: "Flooring installers and tile and stone setters", exposure: 1, rationale: "核心职责完全体力化，涉及手部灵巧、重物搬运和实时适应不规则的物理表面。"},
+      {title: "Drywall installers, ceiling tile installers, and tapers", exposure: 1, rationale: "核心任务完全体力化，涉及体力劳动、灵巧性和在不可预测的建筑环境中移动。"},
+      {title: "Construction laborers and helpers", exposure: 1, rationale: "核心职责几乎完全体力化，涉及体力劳动、工具操作和场地准备，在不可预测的户外环境。"},
+      {title: "Athletes and sports competitors", exposure: 1, rationale: "核心是身体表现、手部灵巧和实时人类在物理世界的存在，AI无法复制。"},
+      {title: "Wind turbine technicians", exposure: 2, rationale: "核心涉及高风险体力劳动，包括攀爬200英尺塔架、绳降和在受限空间进行手动维修。"}
+    ];
+    
+    const highRisk = allJobs.filter(j => j.exposure >= 9).sort((a,b) => b.exposure - a.exposure);
+    const lowRisk = allJobs.filter(j => j.exposure <= 2).sort((a,b) => a.exposure - b.exposure);
+    
+    // 渲染列表
+    function renderList(containerId, jobs, isHigh) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = jobs.map(job => `
+        <div class="job-card">
+          <div>
+            <div class="job-title">${job.title}</div>
+            <div class="exposure-bar">
+              <div class="exposure-fill ${isHigh ? 'high' : 'low'}" style="width: ${job.exposure * 10}%"></div>
+            </div>
+          </div>
+          <div class="job-score ${isHigh ? 'high' : 'low'}">${job.exposure}</div>
+        </div>
+      `).join('');
+    }
+    
+    renderList('highRiskList', highRisk, true);
+    renderList('lowRiskList', lowRisk, false);
+    
+    // 搜索功能
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      const resultDiv = document.getElementById('searchResult');
+      
+      if (!query) {
+        resultDiv.className = 'search-result';
+        resultDiv.innerHTML = '';
+        return;
+      }
+      
+      const found = allJobs.find(j => j.title.toLowerCase().includes(query));
+      
+      if (found) {
+        const isHigh = found.exposure >= 7;
+        resultDiv.className = 'search-result found';
+        resultDiv.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong>${found.title}</strong>
+              <div style="color:var(--text-muted); font-size:14px; margin-top:4px;">${found.rationale}</div>
+            </div>
+            <div class="job-score ${isHigh ? 'high' : 'low'}" style="font-size:32px;">${found.exposure}</div>
+          </div>
+          <div class="exposure-bar" style="margin-top:12px;">
+            <div class="exposure-fill ${isHigh ? 'high' : 'low'}" style="width: ${found.exposure * 10}%"></div>
+          </div>
+        `;
+      } else {
+        resultDiv.className = 'search-result not-found';
+        resultDiv.innerHTML = '未找到匹配的职业，试试英文关键词如 "programmer"、"accountant"';
+      }
+    });
+  </script>
+</body>
+</html>

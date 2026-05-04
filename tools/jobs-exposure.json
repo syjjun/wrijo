@@ -1,0 +1,106 @@
+{
+  "high": [
+    {
+      "title": "Medical transcriptionists",
+      "exposure": 10,
+      "rationale": "Medical transcription is a purely digital, routine information-processing task that has already been heavily impacted by speech recognition. Modern AI"
+    },
+    {
+      "title": "Bill and account collectors",
+      "exposure": 9,
+      "rationale": "This occupation is almost entirely digital, consisting of data analysis, skip tracing, and communication via phone or computer. AI and automated syste"
+    },
+    {
+      "title": "Bookkeeping, accounting, and auditing clerks",
+      "exposure": 9,
+      "rationale": "This occupation is almost entirely digital and involves routine information processing, data entry, and mathematical verification—tasks that AI and au"
+    },
+    {
+      "title": "Computer and information research scientists",
+      "exposure": 9,
+      "rationale": "This occupation is fundamentally digital, involving high-level coding, algorithm design, and data analysis—all areas where AI is rapidly advancing. Wh"
+    },
+    {
+      "title": "Computer programmers",
+      "exposure": 9,
+      "rationale": "The core tasks of writing, testing, and debugging code are entirely digital and align perfectly with the strengths of Large Language Models, which are"
+    },
+    {
+      "title": "Court reporters and simultaneous captioners",
+      "exposure": 9,
+      "rationale": "The core product of this occupation is a verbatim digital transcript, a task where AI speech-to-text and natural language processing are already highl"
+    },
+    {
+      "title": "Customer service representatives",
+      "exposure": 9,
+      "rationale": "The core duties of this role—answering questions, processing orders, and resolving complaints—are fundamentally digital and information-based, making "
+    },
+    {
+      "title": "Data scientists",
+      "exposure": 9,
+      "rationale": "Data science is a fully digital occupation centered on coding, statistical modeling, and data analysis—all areas where AI is rapidly achieving parity "
+    },
+    {
+      "title": "Database administrators and architects",
+      "exposure": 9,
+      "rationale": "This occupation is entirely digital, involving coding (SQL), system architecture, and data management—all areas where AI is exceptionally proficient. "
+    },
+    {
+      "title": "Desktop publishers",
+      "exposure": 9,
+      "rationale": "The work product is entirely digital and involves routine information processing, layout design, and basic editing—all areas where AI is highly profic"
+    }
+  ],
+  "low": [
+    {
+      "title": "Roofers",
+      "exposure": 1,
+      "rationale": "Roofing is a highly physical occupation performed in unpredictable outdoor environments that require manual dexterity, balance, and heavy lifting. Whi"
+    },
+    {
+      "title": "Painters, construction and maintenance",
+      "exposure": 1,
+      "rationale": "The core duties of this occupation are entirely physical, requiring manual dexterity, mobility at heights, and real-time adaptation to unpredictable p"
+    },
+    {
+      "title": "Janitors and building cleaners",
+      "exposure": 1,
+      "rationale": "The core duties of this occupation are almost entirely physical, involving manual labor in unpredictable and varied environments like schools, hospita"
+    },
+    {
+      "title": "Ironworkers",
+      "exposure": 1,
+      "rationale": "Ironworking is a highly physical occupation performed in unpredictable, outdoor environments and at great heights, which provides a significant natura"
+    },
+    {
+      "title": "Grounds maintenance workers",
+      "exposure": 1,
+      "rationale": "The core duties of this occupation are almost entirely physical and performed in unpredictable outdoor environments, which provides a strong natural b"
+    },
+    {
+      "title": "Flooring installers and tile and stone setters",
+      "exposure": 1,
+      "rationale": "The core duties of this occupation are entirely physical, involving manual dexterity, heavy lifting, and real-time adaptation to irregular physical su"
+    },
+    {
+      "title": "Drywall installers, ceiling tile installers, and tapers",
+      "exposure": 1,
+      "rationale": "The core tasks of this occupation are entirely physical, involving manual labor, dexterity, and movement in unpredictable construction environments. W"
+    },
+    {
+      "title": "Construction laborers and helpers",
+      "exposure": 1,
+      "rationale": "The core duties of this occupation are almost entirely physical, involving manual labor, tool operation, and site preparation in unpredictable outdoor"
+    },
+    {
+      "title": "Athletes and sports competitors",
+      "exposure": 1,
+      "rationale": "The core of this occupation is physical performance, manual dexterity, and real-time human presence in the physical world, which AI cannot replicate. "
+    },
+    {
+      "title": "Wind turbine technicians",
+      "exposure": 2,
+      "rationale": "The core of this occupation involves high-stakes physical labor, including climbing 200-foot towers, rappelling, and performing manual repairs in conf"
+    }
+  ]
+}
