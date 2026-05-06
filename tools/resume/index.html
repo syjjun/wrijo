@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume Optimizer | 简历优化 - Wrijo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     :root {
       --bg: #fafbfc;
@@ -449,6 +450,141 @@
       color: var(--text-muted);
       cursor: pointer;
     }
+
+    /* ── Template Panel ── */
+    .template-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 500; backdrop-filter: blur(4px);
+    }
+    .template-overlay.open { display: block; }
+    .template-panel {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: white; border-radius: 20px 20px 0 0; z-index: 501;
+      max-height: 92vh; overflow-y: auto; padding: 24px;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+    }
+    .template-panel.open { display: block; }
+    .template-panel-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 20px;
+    }
+    .template-panel-header h3 { font-size: 18px; font-weight: 700; color: var(--text); }
+    .template-close { background: var(--surface-2); border: none; width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--text-muted); }
+    .template-tabs { display: flex; gap: 12px; margin-bottom: 20px; }
+    .tmpl-tab {
+      flex: 1; padding: 10px 8px; border: 2px solid var(--border);
+      border-radius: 10px; background: white; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      transition: all 0.2s;
+    }
+    .tmpl-tab.active { border-color: var(--accent); background: var(--accent-light); }
+    .tmpl-thumb {
+      width: 48px; height: 64px; border-radius: 4px; border: 1px solid var(--border);
+    }
+    .tmpl-classic-thumb { background: white; }
+    .tmpl-modern-thumb { background: linear-gradient(135deg, #f8f9fa 60%, #e9ecef 100%); }
+    .tmpl-executive-thumb { background: #1a2e35; }
+    .tmpl-tab span { font-size: 12px; font-weight: 600; color: var(--text); }
+    .preview-area { }
+    .preview-toolbar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .preview-hint { font-size: 12px; color: var(--text-muted); }
+    .preview-actions { display: flex; gap: 8px; }
+    .resume-preview-wrapper {
+      background: #e5e7eb; border-radius: 8px; padding: 24px;
+      display: flex; justify-content: center; overflow-y: auto; max-height: 60vh;
+    }
+    /* Classic ATS Template */
+    .resume-preview.tmpl-classic {
+      background: white; padding: 40px 36px; width: 600px;
+      font-family: 'Source Sans 3', 'Noto Sans SC', sans-serif;
+      font-size: 11px; line-height: 1.5; color: #1a1a1a;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+    }
+    .resume-preview.tmpl-classic .rvc-name {
+      font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .resume-preview.tmpl-classic .rvc-title {
+      font-size: 12px; color: #444; margin-bottom: 6px; font-weight: 400;
+    }
+    .resume-preview.tmpl-classic .rvc-contact {
+      font-size: 10px; color: #666; margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    .resume-preview.tmpl-classic .rvc-section { margin-bottom: 14px; }
+    .resume-preview.tmpl-classic .rvc-section-title {
+      font-size: 11px; font-weight: 700; color: #1a1a2e; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 6px; padding-bottom: 3px;
+      border-bottom: 2px solid #1a1a2e;
+    }
+    .resume-preview.tmpl-classic .rvc-section-body { font-size: 10.5px; line-height: 1.65; color: #333; }
+    .resume-preview.tmpl-classic .rvc-section-body b { font-weight: 600; color: #1a1a2e; }
+    /* Modern Template */
+    .resume-preview.tmpl-modern {
+      background: white; padding: 40px 36px; width: 600px;
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      font-size: 11px; color: #1a1a1a;
+    }
+    .resume-preview.tmpl-modern .rvc-name {
+      font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #0066ff, #0052cc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .resume-preview.tmpl-modern .rvc-title {
+      font-size: 12px; color: #0066ff; font-weight: 600; margin-bottom: 6px;
+    }
+    .resume-preview.tmpl-modern .rvc-contact {
+      font-size: 10px; color: #888; margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .resume-preview.tmpl-modern .rvc-section { margin-bottom: 14px; }
+    .resume-preview.tmpl-modern .rvc-section-title {
+      font-size: 10px; font-weight: 700; color: #0066ff; text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 6px;
+    }
+    .resume-preview.tmpl-modern .rvc-section-body { font-size: 10.5px; line-height: 1.7; color: #444; }
+    .resume-preview.tmpl-modern .rvc-section-body b { font-weight: 600; color: #1a1a2e; }
+    /* Executive Template */
+    .resume-preview.tmpl-executive {
+      background: #1a2e35; padding: 40px 36px; width: 600px;
+      font-family: 'Crimson Text', 'Noto Sans SC', serif;
+      font-size: 11px; color: #e8e8e8;
+    }
+    .resume-preview.tmpl-executive .rvc-name {
+      font-size: 26px; font-weight: 600; color: #f5c842;
+      font-style: italic; margin-bottom: 4px; letter-spacing: 0.02em;
+    }
+    .resume-preview.tmpl-executive .rvc-title {
+      font-size: 11px; color: #a0b0b8; margin-bottom: 6px; letter-spacing: 0.05em;
+    }
+    .resume-preview.tmpl-executive .rvc-contact {
+      font-size: 10px; color: #7a8a90; margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid #2a3a42;
+    }
+    .resume-preview.tmpl-executive .rvc-section { margin-bottom: 14px; }
+    .resume-preview.tmpl-executive .rvc-section-title {
+      font-size: 9px; font-weight: 600; color: #f5c842; text-transform: uppercase;
+      letter-spacing: 0.15em; margin-bottom: 6px;
+    }
+    .resume-preview.tmpl-executive .rvc-section-body { font-size: 10.5px; line-height: 1.75; color: #c8d4d8; }
+    .resume-preview.tmpl-executive .rvc-section-body b { font-weight: 600; color: #f0e0a0; }
+
+    /* btn-template */
+    .btn-template { background: #f0f5f2 !important; color: var(--primary) !important; border-color: var(--primary) !important; }
+    .btn-template:hover { background: var(--primary) !important; color: white !important; }
+
+    @media (max-width: 768px) {
+      .template-panel { padding: 16px; }
+      .template-tabs { gap: 8px; }
+      .tmpl-thumb { width: 36px; height: 48px; }
+      .resume-preview-wrapper { padding: 12px; }
+      .resume-preview { width: 100% !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -512,6 +648,7 @@
           <div class="panel-actions">
             <button class="btn-sm" onclick="copyOutput()" data-i18n="btn_copy">复制 Copy</button>
             <button class="btn-sm" onclick="downloadOutput()" data-i18n="btn_download">下载 Download</button>
+            <button class="btn-sm btn-template" onclick="openTemplatePanel()" data-i18n="btn_template">📄 预览模板</button>
           </div>
         </div>
         <div class="output-box" id="output" data-placeholder="优化后的简历将显示在这里...&#10;Optimized resume will appear here..."></div>
@@ -577,6 +714,16 @@
         btn_verify: '验证并继续',
         toast_copied: '已复制 Copied',
         toast_downloaded: '已下载 Downloaded',
+        btn_template: '预览模板',
+        tmpl_title: '简历模板预览',
+        tmpl_classic: '经典ATS',
+        tmpl_modern: '现代简约',
+        tmpl_executive: 'Executive典雅',
+        tmpl_hint: '先点「同步内容」加载AI生成的结果',
+        tmpl_sync: '同步内容',
+        btn_export_pdf: '导出 PDF',
+        tmpl_empty_warn: '请先生成简历内容',
+        toast_pdf_exported: 'PDF已导出',
         toast_sample: '示例已加载 Sample loaded',
         toast_code_sent: '验证码已发送',
         toast_verified: '验证成功',
@@ -1034,6 +1181,107 @@ Python, Go, Redis, Kafka, MySQL, Kubernetes`;
     if (savedLang === 'en') {
       document.querySelector('.lang-btn:nth-child(2)').click();
     }
+    // ── Template Preview ──
+    let currentTemplate = 'classic';
+
+    function openTemplatePanel() {
+      document.getElementById('templateOverlay').classList.add('open');
+      document.getElementById('templatePanel').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      syncPreview();
+    }
+    function closeTemplatePanel() {
+      document.getElementById('templateOverlay').classList.remove('open');
+      document.getElementById('templatePanel').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function switchTemplate(tmpl) {
+      currentTemplate = tmpl;
+      document.querySelectorAll('.tmpl-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('[data-tmpl="' + tmpl + '"]').classList.add('active');
+      const preview = document.getElementById('resumePreview');
+      preview.className = 'resume-preview tmpl-' + tmpl;
+    }
+    function syncPreview() {
+      const text = document.getElementById('output').textContent.trim();
+      if (!text) {
+        showToast(i18n[currentLang] && i18n[currentLang].tmpl_empty_warn || '请先生成简历内容');
+        return;
+      }
+      // Parse basic sections from text
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+      const preview = document.getElementById('resumePreview');
+      // Try to extract name (first non-empty line)
+      let nameEl = preview.querySelector('.rvc-name');
+      let titleEl = preview.querySelector('.rvc-title');
+      let contactEl = preview.querySelector('.rvc-contact');
+      let sections = preview.querySelectorAll('.rvc-section');
+      // Simple parsing: group lines by headers
+      let currentSection = null;
+      let sectionBodies = {};
+      let sectionTitles = {};
+      let currentBlock = [];
+      for (let i = 0; i < lines.length; i++) {
+        let l = lines[i];
+        // Skip common header lines
+        if (i === 0 && (l.includes('@') || l.includes('简历') || l.includes('Resume'))) {
+          // first line might be contact info
+          contactEl.textContent = l;
+          continue;
+        }
+        if (l.match(/^[一二三四五六七八]\.|^\d+[.、]|^[A-Z][a-z]|^个人简介|^工作经历|^教育背景|^技能|^项目|^简介/)) {
+          if (currentBlock.length) {
+            sectionBodies[currentSection] = currentBlock.join('\n');
+            currentBlock = [];
+          }
+          currentSection = l.replace(/^[一二三四五六七八][.、：:]/, '').trim();
+          sectionTitles[currentSection] = l;
+        } else {
+          currentBlock.push(l);
+        }
+      }
+      if (currentBlock.length && currentSection) sectionBodies[currentSection] = currentBlock.join('\n');
+      // Try to find name from first bold/strong line or first section
+      if (lines.length > 0) {
+        for (let l of lines) {
+          if (!l.includes('@') && l.length < 20 && !l.includes('简历') && !l.includes('Resume') && l.length > 1) {
+            nameEl.textContent = l;
+            break;
+          }
+        }
+      }
+      // Rebuild sections
+      sections.forEach(sec => {
+        let title = sec.querySelector('.rvc-section-title').textContent;
+        let body = sectionBodies[title] || '';
+        sec.querySelector('.rvc-section-body').innerHTML = body.replace(/\n/g, '<br>');
+      });
+      switchTemplate(currentTemplate);
+    }
+    async function exportPDF() {
+      const btn = document.getElementById('pdfBtn');
+      const originalText = btn.textContent;
+      btn.textContent = '生成中...';
+      btn.disabled = true;
+      try {
+        const element = document.getElementById('resumePreview');
+        const opt = {
+          margin: 0,
+          filename: 'wrijo-resume.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        await html2pdf().set(opt).from(element).save();
+        showToast(i18n[currentLang] && i18n[currentLang].toast_pdf_exported || 'PDF已导出');
+      } catch(e) {
+        showToast('导出失败，请重试');
+        console.error(e);
+      }
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+
   </script>
 </body>
 </html>
