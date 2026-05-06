@@ -7,14 +7,10 @@
   <title data-lang="en" style="display:none">Wrijo - AI Writing Toolkit | Resume, Cover Letter, Social Posts</title>
   <meta name="description" data-lang="zh" content="专业AI写作工具。简历优化命中率提升3倍、求职信定制化生成、小红书爆款文案。每天5次免费，无需注册。">
   <meta name="description" data-lang="en" content="Professional AI writing tools. Resume optimization, cover letter generation, and viral social content — all in one place. 5 free uses daily, no signup required.">
-  <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Wrijo - AI Writing Toolkit">
-  <meta property="og:description" content="简历优化、求职信、小红书笔记，一键生成。免费使用，无需注册。">
-  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* ── CSS Variables (Final Plan Colors) ── */
+    /* ── Variables (Deep Green + Gold) ── */
     :root {
       --primary:       #0A5640;
       --primary-light: #1A7A5E;
@@ -46,10 +42,7 @@
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .fade-up {
-      opacity: 0;
-      animation: fadeSlideUp 400ms ease-out forwards;
-    }
+    .fade-up { opacity: 0; animation: fadeSlideUp 400ms ease-out forwards; }
     .delay-1 { animation-delay: 80ms; }
     .delay-2 { animation-delay: 160ms; }
     .delay-3 { animation-delay: 240ms; }
@@ -77,7 +70,7 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 16px; color: white; font-weight: 700;
     }
-    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
     .lang-toggle {
       display: flex; align-items: center; gap: 2px;
       background: var(--background);
@@ -90,27 +83,45 @@
       border-radius: 5px; transition: all 200ms ease;
       color: var(--text-muted);
     }
-    .lang-btn.active {
-      background: var(--primary); color: white;
-    }
-    nav { display: flex; align-items: center; gap: 8px; }
+    .lang-btn.active { background: var(--primary); color: white; }
+    nav { display: flex; align-items: center; gap: 4px; }
     nav a {
       padding: 6px 14px; color: var(--text-muted);
       text-decoration: none; font-size: 14px; font-weight: 500;
       border-radius: 6px; transition: all 0.2s;
     }
     nav a:hover { color: var(--primary); background: #f0f5f2; }
-    nav a.cta-btn {
-      background: var(--primary); color: white !important;
-      padding: 7px 16px;
-    }
+    nav a.cta-btn { background: var(--primary); color: white !important; padding: 7px 16px; }
     nav a.cta-btn:hover { background: var(--primary-light); }
     .mobile-menu-btn { display: none; background: none; border: none; font-size: 22px; cursor: pointer; padding: 8px; color: var(--text-muted); }
-    .mobile-nav { display: none; position: fixed; inset: 0; background: white; z-index: 200; padding: 24px; flex-direction: column; gap: 8px; }
+
+    /* ── Mobile Nav ── */
+    .mobile-nav {
+      display: none; position: fixed; inset: 0;
+      background: white; z-index: 200;
+      flex-direction: column; padding: 24px;
+    }
     .mobile-nav.open { display: flex; }
     .mobile-nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
     .mobile-nav-close { background: none; border: none; font-size: 24px; cursor: pointer; }
-    .mobile-nav a { padding: 14px 0; font-size: 18px; font-weight: 500; color: var(--text); border-bottom: 1px solid var(--border); text-decoration: none; }
+    .mobile-nav a {
+      padding: 14px 0; font-size: 18px; font-weight: 500;
+      color: var(--text); border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .mobile-nav-lang {
+      display: flex; gap: 8px; padding: 16px 0;
+      border-bottom: 1px solid var(--border); margin-bottom: 8px;
+    }
+    .mobile-lang-btn {
+      padding: 8px 20px; border: 2px solid var(--border);
+      background: none; font-size: 15px; font-weight: 600;
+      cursor: pointer; border-radius: 8px; transition: all 0.2s;
+      color: var(--text-muted);
+    }
+    .mobile-lang-btn.active {
+      border-color: var(--primary); background: var(--primary); color: white;
+    }
 
     /* ── Hero ── */
     .hero {
@@ -144,16 +155,13 @@
       transition: all 0.2s;
     }
     .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(10,86,64,0.25); }
-    .btn-primary:active { transform: scale(0.97); }
     .btn-secondary {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 13px 24px; background: var(--surface); color: var(--text);
       font-size: 15px; font-weight: 600; border-radius: 8px;
-      text-decoration: none; border: 1px solid var(--border);
-      transition: all 0.2s;
+      text-decoration: none; border: 1px solid var(--border); transition: all 0.2s;
     }
     .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-    .btn-secondary:active { transform: scale(0.97); }
     .hero-trust { margin-top: 20px; font-size: 13px; color: var(--text-muted); }
     .hero-trust span { color: var(--green); font-weight: 600; }
     .hero-slogan { font-size: 15px; color: var(--primary); margin-top: 8px; font-weight: 500; letter-spacing: 0.01em; }
@@ -191,11 +199,9 @@
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 22px;
       transition: all 150ms;
-      cursor: pointer; text-decoration: none; color: inherit;
-      display: block;
+      cursor: pointer; text-decoration: none; color: inherit; display: block;
     }
     .tool-card:hover { border-color: var(--primary); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
-    .tool-card:active { transform: scale(0.97); }
     .tool-card-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 10px; }
     .tool-icon {
       width: 42px; height: 42px; border-radius: 10px;
@@ -238,7 +244,7 @@
     /* ── Responsive ── */
     @media (max-width: 768px) {
       header { padding: 0 20px; }
-      nav, .lang-toggle { display: none; }
+      nav, .lang-toggle { display: none !important; }
       .mobile-menu-btn { display: block; }
       .hero { padding: 60px 20px 48px; }
       .steps { grid-template-columns: 1fr; gap: 28px; }
@@ -254,13 +260,16 @@
   <header>
     <a href="/" class="logo">
       <div class="logo-icon">W</div>
-      Wrijo
+      <span data-lang="zh">Wrijo</span>
+      <span data-lang="en" style="display:none">Wrijo</span>
     </a>
     <div class="header-right">
+      <!-- Desktop language toggle -->
       <div class="lang-toggle">
         <button class="lang-btn active" data-lang-btn="zh" onclick="setLang('zh')">中</button>
         <button class="lang-btn" data-lang-btn="en" onclick="setLang('en')">EN</button>
       </div>
+      <!-- Desktop nav -->
       <nav>
         <a href="#how" data-lang="zh">如何使用</a>
         <a href="#how" data-lang="en" style="display:none">How It Works</a>
@@ -282,6 +291,11 @@
         <div class="logo-icon">W</div> Wrijo
       </a>
       <button class="mobile-nav-close" onclick="toggleMobileNav()">✕</button>
+    </div>
+    <!-- Mobile language toggle — VISIBLE in mobile nav -->
+    <div class="mobile-nav-lang">
+      <button class="mobile-lang-btn active" id="mobileLangZh" onclick="setLang('zh')">中文</button>
+      <button class="mobile-lang-btn" id="mobileLangEn" onclick="setLang('en')">English</button>
     </div>
     <a href="#how" onclick="toggleMobileNav()" data-lang="zh">如何使用</a>
     <a href="#how" onclick="toggleMobileNav()" data-lang="en" style="display:none">How It Works</a>
@@ -315,7 +329,7 @@
     <p class="hero-trust fade-up delay-5">
       <span>✓</span> <span data-lang="zh">不保存你的内容</span><span data-lang="en" style="display:none">Content not stored</span> ·
       <span>✓</span> <span data-lang="zh">额度每日重置</span><span data-lang="en" style="display:none">Daily resets</span> ·
-      <span>✓</span> <span data-lang="zh">验证码即登即用</span><span data-lang="en" style="display:none">Email verification only</span>
+      <span>✓</span> <span data-lang="zh">验证码即登即用</span><span data-lang="en" style="display:none">Email verify and go</span>
     </p>
   </section>
 
@@ -350,12 +364,12 @@
     </div>
   </section>
 
-  <!-- Tools -->
+  <!-- Tools (9 tools — all preserved) -->
   <section class="tools-section" id="tools">
     <p class="section-label" data-lang="zh">工具箱</p>
     <p class="section-label" data-lang="en" style="display:none">Toolkit</p>
-    <h2 class="section-title" data-lang="zh">6 大工具，覆盖职场写作全场景</h2>
-    <h2 class="section-title" data-lang="en" style="display:none">6 Tools for Every Professional Writing Need</h2>
+    <h2 class="section-title" data-lang="zh">9 个工具，覆盖职场写作全场景</h2>
+    <h2 class="section-title" data-lang="en" style="display:none">9 Tools for Every Professional Writing Need</h2>
     <div class="tools-grid">
 
       <a href="/tools/resume/" class="tool-card">
@@ -371,17 +385,17 @@
         <p data-lang="en" style="display:none">Analyze resume issues with actionable suggestions</p>
       </a>
 
-      <a href="/tools/prompt/" class="tool-card">
+      <a href="/tools/cover-letter/" class="tool-card">
         <div class="tool-card-header">
-          <div class="tool-icon" style="background:#fef2f2;">💡</div>
+          <div class="tool-icon" style="background:#fdf4ff;">💌</div>
           <div class="tool-info">
-            <h3 data-lang="zh">需求助手</h3>
-            <h3 data-lang="en" style="display:none">Prompt Assistant</h3>
-            <p class="tool-en">Describe · Generate · Refine</p>
+            <h3 data-lang="zh">求职信</h3>
+            <h3 data-lang="en" style="display:none">Cover Letter</h3>
+            <p class="tool-en">Customize · Match · Stand Out</p>
           </div>
         </div>
-        <p data-lang="zh">描述需求，生成精准提示词</p>
-        <p data-lang="en" style="display:none">Describe your needs, generate precise prompts</p>
+        <p data-lang="zh">粘贴职位描述，AI 生成定制化求职信</p>
+        <p data-lang="en" style="display:none">Paste job description, get a tailored cover letter</p>
       </a>
 
       <a href="/tools/interview/" class="tool-card">
@@ -414,13 +428,26 @@
         <div class="tool-card-header">
           <div class="tool-icon" style="background:#f0f9ff;">📧</div>
           <div class="tool-info">
-            <h3 data-lang="zh">商英邮件</h3>
+            <h3 data-lang="zh">商务邮件</h3>
             <h3 data-lang="en" style="display:none">Biz Email Writer</h3>
             <p class="tool-en">Professional · One-Click · Ready to Send</p>
           </div>
         </div>
         <p data-lang="zh">专业英文邮件，一键生成</p>
         <p data-lang="en" style="display:none">Professional business emails, one-click generation</p>
+      </a>
+
+      <a href="/tools/social/" class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon" style="background:#fff1f2;">📱</div>
+          <div class="tool-info">
+            <h3 data-lang="zh">社交媒体</h3>
+            <h3 data-lang="en" style="display:none">Social Post Writer</h3>
+            <p class="tool-en">Viral · Hook · CTA</p>
+          </div>
+        </div>
+        <p data-lang="zh">微博/公众号爆款文案，一键生成</p>
+        <p data-lang="en" style="display:none">Viral posts for Weibo & WeChat, one-click</p>
       </a>
 
       <a href="/tools/rewrite/" class="tool-card">
@@ -434,6 +461,32 @@
         </div>
         <p data-lang="zh">改写润色，提升可读性</p>
         <p data-lang="en" style="display:none">Rewrite and polish content for readability</p>
+      </a>
+
+      <a href="/tools/xiaohongshu/" class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon" style="background:#fef9c3;">📕</div>
+          <div class="tool-info">
+            <h3 data-lang="zh">小红书文案</h3>
+            <h3 data-lang="en" style="display:none">Xiaohongshu Writer</h3>
+            <p class="tool-en">Emoji · Trendy · Viral</p>
+          </div>
+        </div>
+        <p data-lang="zh">种草/测评/教程，带emoji爆款风格</p>
+        <p data-lang="en" style="display:none">Product reviews & tutorials in viral Xiaohongshu style</p>
+      </a>
+
+      <a href="/tools/translate/" class="tool-card">
+        <div class="tool-card-header">
+          <div class="tool-icon" style="background:#ecfdf5;">🌐</div>
+          <div class="tool-info">
+            <h3 data-lang="zh">翻译助手</h3>
+            <h3 data-lang="en" style="display:none">Translator</h3>
+            <p class="tool-en">Accurate · Context-Aware · Natural</p>
+          </div>
+        </div>
+        <p data-lang="zh">中英互译，保留专业术语和语境</p>
+        <p data-lang="en" style="display:none">Chinese-English translation with context awareness</p>
       </a>
 
     </div>
@@ -529,15 +582,15 @@
     // ── Language Toggle ──
     function setLang(lang) {
       document.querySelectorAll('[data-lang]').forEach(el => {
-        if (el.getAttribute('data-lang') === lang) {
-          el.style.display = '';
-        } else {
-          el.style.display = 'none';
-        }
+        el.style.display = el.getAttribute('data-lang') === lang ? '' : 'none';
       });
+      // Desktop buttons
       document.querySelectorAll('[data-lang-btn]').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
       });
+      // Mobile buttons
+      document.getElementById('mobileLangZh') && document.getElementById('mobileLangZh').classList.toggle('active', lang === 'zh');
+      document.getElementById('mobileLangEn') && document.getElementById('mobileLangEn').classList.toggle('active', lang === 'en');
       document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
       localStorage.setItem('wrijo-lang', lang);
     }
