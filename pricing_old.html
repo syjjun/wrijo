@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定价 - Wrijo</title>
+  <meta name="description" content="Wrijo 定价方案 - 目前完全免费使用。">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafbfc; --surface: #ffffff; --text: #1a1a2e;
+      --text-muted: #6b7280; --accent: #0066ff; --accent-light: #e8f0ff;
+      --accent-hover: #0052cc; --border: #e5e7eb; --green: #10b981; --green-light: #ecfdf5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', 'Noto Sans SC', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 48px; height: 64px; display: flex; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; text-decoration: none; color: var(--text); }
+    .logo-icon { width: 34px; height: 34px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; font-weight: 700; }
+    .back-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; margin-left: auto; }
+    .back-link:hover { color: var(--accent); }
+    main { max-width: 680px; margin: 0 auto; padding: 80px 24px 100px; }
+    h1 { font-size: 36px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    .subtitle { text-align: center; color: var(--text-muted); font-size: 16px; margin-bottom: 48px; }
+    .plan-card { background: var(--surface); border: 2px solid var(--accent); border-radius: 20px; padding: 48px; text-align: center; box-shadow: 0 4px 24px rgba(0,102,255,0.12); }
+    .plan-badge { display: inline-block; padding: 4px 14px; background: var(--green-light); color: var(--green); border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .plan-name { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .plan-price { margin-bottom: 8px; }
+    .plan-price .amount { font-size: 52px; font-weight: 700; }
+    .plan-price .period { font-size: 16px; color: var(--text-muted); }
+    .plan-desc { color: var(--text-muted); font-size: 15px; margin-bottom: 32px; }
+    .features { list-style: none; text-align: left; margin-bottom: 32px; }
+    .features li { padding: 10px 0; font-size: 15px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+    .features li:last-child { border-bottom: none; }
+    .features .ok { color: var(--green); font-size: 16px; font-weight: bold; }
+    .features .no { color: #dc2626; font-size: 16px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 13px 32px; background: var(--accent); color: white; font-size: 15px; font-weight: 600; border-radius: 8px; text-decoration: none; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,102,255,0.3); }
+    .future-note { margin-top: 32px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; color: var(--text-muted); }
+    .future-note strong { color: var(--text); }
+    footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); }
+    footer p { color: var(--text-muted); font-size: 14px; }
+    footer a { color: var(--text-muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 768px) { header { padding: 0 20px; } main { padding: 48px 20px 60px; } .plan-card { padding: 32px 24px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo"><div class="logo-icon">W</div>Wrijo</a>
+    <a href="/" class="back-link">返回首页</a>
+  </header>
+  <main>
+    <h1>简单直接的定价</h1>
+    <p class="subtitle">每天免费用5次，Pro版即将上线。</p>
+    <div class="plan-card">
+      <div class="plan-badge">免费体验</div>
+      <div class="plan-name">免费版</div>
+      <div class="plan-price">
+        <span class="amount">¥0</span>
+        <span class="period"> / 每天5次</span>
+      </div>
+      <p class="plan-desc">9个AI写作工具每天免费用5次，无广告，无需注册。</p>
+      <ul class="features">
+        <li><span class="ok">&#10003;</span> 9 个 AI 写作工具全部可用</li>
+        <li><span class="ok">&#10003;</span> 每天 5 次免费使用额度</li>
+        <li><span class="ok">&#10003;</span> 额度每日自动重置</li>
+        <li><span class="ok">&#10003;</span> 不保存你的内容，隐私安全</li>
+        <li><span class="ok">&#10003;</span> 无需注册，邮箱验证即用</li>
+        <li><span class="ok">&#10003;</span> 中英双语界面</li>
+        <li><span class="no">-</span> 付费版（敬请期待）</li>
+      </ul>
+      <a href="/#tools" class="btn-primary">立即免费使用</a>
+    </div>
+    <div class="future-note">
+      <strong>未来可能会有的付费功能：</strong>如果用户量增长导致 AI 成本过高，可能会对每日免费额度做适当调整，或推出不限额度的付费版。但免费用户的基本功能不会取消。具体方案确定后会提前公告。
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2026 Wrijo &middot; <a href="/privacy.html">隐私政策</a> &middot; <a href="/terms.html">使用条款</a></p>
+  </footer>
+</body>
+</html>
