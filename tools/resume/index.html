@@ -343,6 +343,10 @@
       color: var(--accent);
       background: var(--accent-light);
     }
+    .btn-secondary .spinner {
+      border-color: rgba(0,102,255,0.3);
+      border-top-color: var(--accent);
+    }
     .btn-secondary:disabled {
       opacity: 0.6;
       cursor: not-allowed;
@@ -637,8 +641,8 @@
     .resume-preview.tmpl-executive .rvc-section-body b { font-weight: 600; color: #f0e0a0; }
 
     /* btn-template */
-    .btn-template { background: #f0f5f2 !important; color: var(--primary) !important; border-color: var(--primary) !important; }
-    .btn-template:hover { background: var(--primary) !important; color: white !important; }
+    .btn-template { background: #e8f0ff !important; color: var(--accent) !important; border-color: var(--accent) !important; }
+    .btn-template:hover { background: var(--accent) !important; color: white !important; }
 
     @media (max-width: 768px) {
       .template-panel { padding: 16px; }
@@ -694,7 +698,7 @@
             <span class="jd-label" data-i18n="jd_title">🎯 目标岗位JD（可选）</span>
             <span class="jd-hint" data-i18n="jd_hint">粘贴岗位描述，AI将针对性优化</span>
           </div>
-          <textarea id="jdInput" placeholder="粘贴目标岗位的职位描述（JD），AI会根据岗位要求针对性优化简历...\nPaste the job description here, AI will tailor your resume to match..."></textarea>
+          <textarea id="jdInput" placeholder="粘贴目标岗位的职位描述（JD），AI会根据岗位要求针对性优化简历...&#10;Paste the job description here, AI will tailor your resume to match..."></textarea>
         </div>
         <div class="panel-footer">
           <div class="control-group">
@@ -1241,9 +1245,13 @@ Python, Go, Redis, Kafka, MySQL, Kubernetes`;
           }
         }
         
+        const sessionToken2 = localStorage.getItem('wrijo-session-token');
+        const headers2 = { 'Content-Type': 'application/json' };
+        if (sessionToken2) headers2['Authorization'] = 'Bearer ' + sessionToken2;
+
         const res = await fetch('/api/ai', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: headers2,
           body: JSON.stringify({
             tool: 'resume',
             system,
@@ -1342,9 +1350,13 @@ Format:
           }
         }
 
+        const sessionToken = localStorage.getItem('wrijo-session-token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (sessionToken) headers['Authorization'] = 'Bearer ' + sessionToken;
+
         const res = await fetch('/api/ai', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify({
             tool: 'cover-letter',
             system,
