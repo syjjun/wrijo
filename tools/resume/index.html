@@ -208,6 +208,44 @@
     }
     textarea:focus { outline: none; }
     textarea::placeholder { color: #9ca3af; }
+    .jd-section {
+      border-top: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+    .jd-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .jd-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .jd-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    #jdInput {
+      min-height: 120px;
+      background: var(--surface-2);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Inter', 'Noto Sans SC', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      resize: vertical;
+      width: 100%;
+      color: var(--text);
+    }
+    #jdInput:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: white;
+    }
+    #jdInput::placeholder { color: #9ca3af; }
     
     .output-box {
       width: 100%;
@@ -233,6 +271,11 @@
       padding: 12px 20px;
       border-top: 1px solid var(--border);
       background: var(--surface-2);
+    }
+    .panel-actions-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     
     .control-group {
@@ -283,6 +326,26 @@
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
+    }
+    .btn-secondary {
+      padding: 10px 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+    .btn-secondary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
     
     .spinner {
@@ -626,6 +689,13 @@
           </div>
         </div>
         <textarea id="input" placeholder="在此粘贴您的简历内容... Paste your resume here..."></textarea>
+        <div class="jd-section">
+          <div class="jd-header">
+            <span class="jd-label" data-i18n="jd_title">🎯 目标岗位JD（可选）</span>
+            <span class="jd-hint" data-i18n="jd_hint">粘贴岗位描述，AI将针对性优化</span>
+          </div>
+          <textarea id="jdInput" placeholder="粘贴目标岗位的职位描述（JD），AI会根据岗位要求针对性优化简历...\nPaste the job description here, AI will tailor your resume to match..."></textarea>
+        </div>
         <div class="panel-footer">
           <div class="control-group">
             <label data-i18n="label_type">类型 Type:</label>
@@ -653,7 +723,9 @@
         </div>
         <div class="output-box" id="output" data-placeholder="优化后的简历将显示在这里...&#10;Optimized resume will appear here..."></div>
         <div class="panel-footer">
-          <span></span>
+          <div class="panel-actions-left">
+            <button class="btn-secondary" id="coverLetterBtn" onclick="generateCoverLetter()" data-i18n="btn_cover_letter">✉️ 生成求职信</button>
+          </div>
           <button class="btn-primary" id="optimizeBtn" onclick="handleOptimizeClick()">
             <span data-i18n="btn_optimize">开始优化 Optimize</span>
           </button>
@@ -729,6 +801,13 @@
         toast_verified: '验证成功',
         error_short: '简历内容太短，请至少输入50个字符',
         error_failed: '优化失败: ',
+        btn_cover_letter: '✉️ 生成求职信',
+        btn_cover_letter_done: '求职信已生成',
+        cover_letter_title: '📝 求职信 / 打招呼语',
+        error_no_result: '请先优化简历',
+        toast_cover_letter: '求职信已生成',
+        jd_title: '🎯 目标岗位JD（可选）',
+        jd_hint: '粘贴岗位描述，AI将针对性优化',
         error_quota: '今日额度已用完，请明天再来',
         error_email: '请输入有效的邮箱地址',
         error_code: '验证码错误或已过期'
@@ -768,6 +847,13 @@
         toast_verified: 'Verified 验证成功',
         error_short: 'Resume too short, please enter at least 50 characters',
         error_failed: 'Optimization failed: ',
+        btn_cover_letter: '✉️ Cover Letter',
+        btn_cover_letter_done: 'Cover letter generated',
+        cover_letter_title: '📝 Cover Letter / Greeting',
+        error_no_result: 'Please optimize resume first',
+        toast_cover_letter: 'Cover letter generated',
+        jd_title: '🎯 Target Job JD (Optional)',
+        jd_hint: 'Paste job description for tailored optimization',
         error_quota: 'Daily quota exceeded, please come back tomorrow',
         error_email: 'Please enter a valid email',
         error_code: 'Invalid or expired code'
@@ -1112,23 +1198,30 @@ Python, Go, Redis, Kafka, MySQL, Kubernetes`;
         fresh: currentLang === 'zh' ? '应届生简历' : 'Fresh graduate resume'
       };
       
+      const jdText = document.getElementById('jdInput').value.trim();
+      const jdSection = jdText
+        ? (currentLang === 'zh'
+          ? `\n8. 以下是目标岗位的JD，请根据JD要求重写工作经历，突出匹配的技能和关键词，增加通过ATS筛选的概率：\n---\n${jdText}\n---`
+          : `\n8. The following is the target job JD. Rewrite work experience to highlight matching skills and keywords, increasing ATS pass rate:\n---\n${jdText}\n---`)
+        : '';
+
       const system = currentLang === 'zh' 
         ? `你是一位专业的简历优化师。请优化以下简历，要求：
-1. 修正语法和表达问题
-2. 使用强有力的动词开头
-3. 添加量化指标（如用户数、提升百分比、收入等）
-4. 优化排版，使其更易读
-5. 针对${typeMap[document.getElementById('type').value]}进行优化
-6. 保持原有事实，不虚构经历
-7. 输出优化后的完整简历`
+1. 使用STAR法则（情境-任务-行动-结果）重写每条工作经历
+2. 用强有力的动词开头（如：主导、搭建、推动、重构）
+3. 添加量化指标（用户数、提升百分比、收入、节省时间等）
+4. 针对${typeMap[document.getElementById('type').value]}进行优化
+5. 保持原有事实，绝不虚构经历
+6. 输出优化后的完整简历，格式清晰，分条列出
+7. 每条工作经历下用【STAR分析】标注优化逻辑${jdSection}`
         : `You are a professional resume optimizer. Please optimize the following resume:
-1. Fix grammar and expression issues
-2. Use strong action verbs
-3. Add quantifiable metrics (users, percentages, revenue, etc.)
-4. Improve formatting for readability
-5. Optimize for ${typeMap[document.getElementById('type').value]}
-6. Keep original facts, don't fabricate experience
-7. Output the complete optimized resume`;
+1. Use STAR method (Situation-Task-Action-Result) to rewrite each work experience
+2. Start with strong action verbs (e.g., Led, Built, Drove, Rebuilt)
+3. Add quantifiable metrics (users, percentages, revenue, time saved, etc.)
+4. Optimize for ${typeMap[document.getElementById('type').value]}
+5. Keep original facts, NEVER fabricate experience
+6. Output the complete optimized resume with clear formatting
+7. Add [STAR Analysis] under each work experience to explain optimization logic${jdSection}`;
       
       try {
         // 记录使用
@@ -1176,6 +1269,104 @@ Python, Go, Redis, Kafka, MySQL, Kubernetes`;
     verifyModal.addEventListener('click', (e) => {
       if (e.target === verifyModal) verifyModal.classList.remove('show');
     });
+
+    // ── Cover Letter Generator ──
+    async function generateCoverLetter() {
+      const resumeText = output.textContent.trim();
+      if (!resumeText) {
+        showError(i18n[currentLang].error_no_result);
+        return;
+      }
+      hideError();
+      const clBtn = document.getElementById('coverLetterBtn');
+      clBtn.disabled = true;
+      clBtn.innerHTML = '<span class="spinner"></span> ' + (currentLang === 'zh' ? '生成中...' : 'Generating...');
+
+      const jdText = document.getElementById('jdInput').value.trim();
+      const jdSection = jdText
+        ? (currentLang === 'zh'
+          ? `\n目标岗位JD：\n${jdText}`
+          : `\nTarget Job JD:\n${jdText}`)
+        : '';
+
+      const system = currentLang === 'zh'
+        ? `你是一位专业的求职信撰写师。请根据优化后的简历${jdSection ? '和目标岗位JD' : ''}，生成以下内容：
+
+1. 【50字打招呼语】— 给HR的简短消息，突出最大优势，语气真诚有活力
+2. 【200字求职信】— 正式求职信，结构：开头（为什么适合）+ 中间（2-3个核心亮点）+ 结尾（期待面试）
+
+格式要求：
+- 打招呼语和求职信分开输出
+- 用数据说话，不要空话
+- 语气专业但不冰冷${jdSection}`
+        : `You are a professional cover letter writer. Based on the optimized resume${jdSection ? ' and target job JD' : ''}, generate:
+
+1. [50-word Greeting] — Brief message to HR, highlighting your biggest advantage. Sincere and energetic.
+2. [200-word Cover Letter] — Formal letter: Opening (why you fit) + Middle (2-3 key highlights) + Closing (look forward to interview)
+
+Format:
+- Output greeting and cover letter separately
+- Use data, no empty claims
+- Professional but warm${jdSection}`;
+
+      try {
+        // 检查额度
+        if (userEmail) {
+          const sessionToken = localStorage.getItem('wrijo-session-token');
+          if (sessionToken) {
+            const quotaRes = await fetch('/api/check-quota', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: sessionToken })
+            });
+            const quotaData = await quotaRes.json();
+            if (!quotaData.allowed) {
+              showError(i18n[currentLang].error_quota);
+              return;
+            }
+          }
+        }
+
+        // 记录使用
+        if (userEmail) {
+          const sessionToken = localStorage.getItem('wrijo-session-token');
+          if (sessionToken) {
+            const quotaRes = await fetch('/api/use-quota', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: sessionToken })
+            });
+            const quotaData = await quotaRes.json();
+            if (quotaData.token) localStorage.setItem('wrijo-session-token', quotaData.token);
+            updateQuotaUI();
+          }
+        }
+
+        const res = await fetch('/api/ai', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tool: 'cover-letter',
+            system,
+            messages: [{ role: 'user', content: resumeText }],
+            temperature: 0.6
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Request failed');
+
+        // 追加求职信到输出框
+        const divider = '\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📝 求职信 / Cover Letter\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+        output.textContent = resumeText + divider + data.result;
+        showToast(i18n[currentLang].toast_cover_letter);
+      } catch (err) {
+        showError(i18n[currentLang].error_failed + err.message);
+      } finally {
+        clBtn.disabled = false;
+        clBtn.innerHTML = '<span>' + i18n[currentLang].btn_cover_letter + '</span>';
+      }
+    }
     
     const savedLang = localStorage.getItem('wrijo-lang');
     if (savedLang === 'en') {
