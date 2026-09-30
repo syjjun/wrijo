@@ -328,7 +328,7 @@
 
       try {
         if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
-        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'xiaohongshu', system: `You are a 小红书 (RED) content expert. Write in Chinese with natural Chinese expression. Use emojis naturally. Structure: catchy title (【】) → engaging body → relevant hashtags. The tone should be relatable, authentic, and conversational — like a real person sharing a genuine experience. Never sound robotic or corporate.`, messages: [{ role: 'user', content: prompt }] }) });
+        const res = await fetch('/api/ai', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}), body: JSON.stringify({ tool: 'xiaohongshu', system: `You are a 小红书 (RED) content expert. Write in Chinese with natural Chinese expression. Use emojis naturally. Structure: catchy title (【】) → engaging body → relevant hashtags. The tone should be relatable, authentic, and conversational — like a real person sharing a genuine experience. Never sound robotic or corporate.`, messages: [{ role: 'user', content: prompt }] }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed');
         output.textContent = data.result;

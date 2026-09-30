@@ -281,7 +281,7 @@
       const system = `You are a professional text editor. ${modeMap[document.getElementById('mode').value]} of the following text. Keep the core meaning intact. Output only the rewritten text, no explanations.`;
       try {
         if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
-        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'rewrite', system, messages: [{ role: 'user', content: text }], temperature: 0.4 }) });
+        const res = await fetch('/api/ai', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}), body: JSON.stringify({ tool: 'rewrite', system, messages: [{ role: 'user', content: text }], temperature: 0.4 }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Request failed');
         output.textContent = data.result;

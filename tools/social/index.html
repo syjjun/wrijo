@@ -302,7 +302,7 @@
 
       try {
         if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
-        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'social', system: 'You are a social media copywriter.', messages: [{ role: 'user', content: platformPrompts[currentPlatform] + '\n\nTopic: ' + text }] }) });
+        const res = await fetch('/api/ai', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}), body: JSON.stringify({ tool: 'social', system: 'You are a social media copywriter.', messages: [{ role: 'user', content: platformPrompts[currentPlatform] + '\n\nTopic: ' + text }] }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed');
         output.textContent = data.result;

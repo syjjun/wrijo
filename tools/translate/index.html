@@ -278,7 +278,7 @@
       const system = `You are a professional translator. Translate the following text to ${targetLang}. Preserve the original meaning, tone, and formatting. Maintain any professional terminology accurately. Output only the translation.`;
       try {
         if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
-        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'translate', system, messages: [{ role: 'user', content: text }], temperature: 0.2 }) });
+        const res = await fetch('/api/ai', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}), body: JSON.stringify({ tool: 'translate', system, messages: [{ role: 'user', content: text }], temperature: 0.2 }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Request failed');
         output.textContent = data.result;

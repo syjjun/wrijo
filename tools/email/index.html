@@ -302,7 +302,7 @@ Format:
 Write in the same language as the user's input. Be professional, concise, and effective.`;
       try {
         if (userEmail) { const sessionToken = localStorage.getItem('wrijo-session-token'); if (sessionToken) { await fetch('/api/use-quota', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token: sessionToken }) }); updateQuotaUI(); } }
-        const res = await fetch('/api/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tool: 'email', system, messages: [{ role: 'user', content: text }], temperature: 0.4 }) });
+        const res = await fetch('/api/ai', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}), body: JSON.stringify({ tool: 'email', system, messages: [{ role: 'user', content: text }], temperature: 0.4 }) });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Request failed');
         output.textContent = data.result;

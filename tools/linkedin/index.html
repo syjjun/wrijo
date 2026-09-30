@@ -367,7 +367,7 @@ Keep it authentic, specific, and action-oriented. Avoid generic buzzwords.`;
           }
         }
         const res = await fetch('/api/ai', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json' }, localStorage.getItem('wrijo-session-token') ? { 'Authorization': 'Bearer ' + localStorage.getItem('wrijo-session-token') } : {}),
           body: JSON.stringify({ tool: 'linkedin', system, messages: [{ role: 'user', content: text }], temperature: 0.6 })
         });
         const data = await res.json();
