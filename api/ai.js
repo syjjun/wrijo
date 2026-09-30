@@ -97,7 +97,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'deepseek-ai/DeepSeek-V3.2',
+        model: 'deepseek-ai/DeepSeek-V4.1-Flash',
         messages: requestMessages,
         temperature: 0.4,
         max_tokens: 4000
